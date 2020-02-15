@@ -1,6 +1,6 @@
-import { Item } from "rss-parser";
+import { Item } from 'rss-parser';
 
-export interface HostError {
+export interface IdError {
   message: string;
   article: Item;
   medium: MediumDefinition;

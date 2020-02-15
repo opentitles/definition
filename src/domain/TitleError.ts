@@ -1,4 +1,4 @@
-import { Item } from "rss-parser";
+import { Item } from 'rss-parser';
 
 export interface TitleError {
   message: string;
