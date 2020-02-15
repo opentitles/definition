@@ -18,6 +18,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
       const checkFeed = async (innerLimit: number, j: number = 0) => {
         if (j < innerLimit) {
           const feedname = medium.feeds[j];
+          console.log(`Validating ${medium.name}:${feedname}.`);
           const feedItems = await getFeedItems(medium.prefix + feedname + medium.suffix);
           const randomArticle = await getRandomArticle(feedItems);
           const { hostError, titleError, idError } = await validateArticle(randomArticle, medium);
