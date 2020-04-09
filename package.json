@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "opentitles-validator",
   "version": "1.0.0",
   "main": "index.js",
@@ -9,7 +10,13 @@
   "author": "Floris de Bijl",
   "license": "MIT",
   "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1",
+    "@actions/http-client": "^1.0.7",
+    "@fdebijl/clog": "^1.22.0",
+    "@octokit/rest": "^17.2.0",
     "async": "^3.1.1",
+    "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "puppeteer": "^2.1.1",
     "rss-parser": "^3.7.5"

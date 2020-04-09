@@ -3,6 +3,10 @@ import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
+  if (!article) {
+    return Promise.resolve({});
+  }
+
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -13,10 +17,22 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
     isMobile: false
   });
 
+  const link: string | undefined = article.link || article.guid || undefined;
+
   // Verify host can be reached
   // Host errors preclude any further checks so we can return early
   try {
-    const response = await page.goto(article.link as string);
+    if (!link) {
+      return {
+        hostError: {
+          message: `Could not connect to [${article.link as string}]: no link or GUID in article`,
+          article,
+          medium
+        }
+      }
+    }
+
+    const response = await page.goto(link);
     const statusCode = await response?.status();
   
     if (statusCode) {
@@ -24,7 +40,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         await browser.close();
         return {
           hostError: {
-            message: `Could not connect to [${article.link as string}]: server returned ${statusCode}`,
+            message: `Could not connect to [${link}]: server returned ${statusCode}`,
             article,
             medium
           }
@@ -34,7 +50,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
   } catch (err) {
     return {
       hostError: {
-        message: `Could not connect to [${article.link as string}]: \n${err}`,
+        message: `Could not connect to [${link as string}]: \n${err}`,
         article,
         medium
       }
@@ -46,6 +62,11 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
 
   // Verify page has accessible ID
   const url = await page.url();
+
+  // Pass cookie checks
+  if (await page.$('.button.fjs-set-consent') !== null) page.click('.button.fjs-set-consent');
+
+
   switch (medium.page_id_location) {
     case ('var'): {
       try {

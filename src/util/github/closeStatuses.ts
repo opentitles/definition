@@ -2,6 +2,10 @@ import { HostError, TitleError, IdError } from "../../domain";
 import { setStatus } from "./setStatus";
 
 export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
+  if (!process.env.GITHUB_REPOSITORY) {
+    return;
+  }
+
   if (hostErrors?.length > 0) {
     hostErrors.forEach((hostError) => {
       console.log(`[${hostError.medium.name}] ${hostError.message}`);
