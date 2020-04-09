@@ -1,5 +1,4 @@
 {
-  "scraper_interval": 600,
   "feeds": {
     "nl": [
       {

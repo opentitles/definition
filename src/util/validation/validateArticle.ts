@@ -2,7 +2,11 @@ import { Item } from 'rss-parser';
 import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 
-export const validateArticle = async (article: Item, medium: MediumDefinition): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
+export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
+  if (!article) {
+    return Promise.resolve({});
+  }
+
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -13,10 +17,23 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
     isMobile: false
   });
 
+  const link: string | undefined = article.link || article.guid || undefined;
+
   // Verify host can be reached
   // Host errors preclude any further checks so we can return early
   try {
-    const response = await page.goto(article.link as string);
+    if (!link) {
+      return {
+        hostError: {
+          message: `Could not connect to [${article.link as string}]: no link or GUID in article`,
+          article,
+          medium,
+          feedname
+        }
+      }
+    }
+
+    const response = await page.goto(link);
     const statusCode = await response?.status();
   
     if (statusCode) {
@@ -24,9 +41,10 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         await browser.close();
         return {
           hostError: {
-            message: `Could not connect to [${article.link as string}]: server returned ${statusCode}`,
+            message: `Could not connect to [${link}]: server returned ${statusCode}`,
             article,
-            medium
+            medium,
+            feedname
           }
         }
       }
@@ -34,9 +52,10 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
   } catch (err) {
     return {
       hostError: {
-        message: `Could not connect to [${article.link as string}]: \n${err}`,
+        message: `Could not connect to [${link as string}]: \n${err}`,
         article,
-        medium
+        medium,
+        feedname
       }
     }
   }
@@ -46,6 +65,11 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
 
   // Verify page has accessible ID
   const url = await page.url();
+
+  // Pass cookie checks
+  if (await page.$('.button.fjs-set-consent') !== null) page.click('.button.fjs-set-consent');
+
+
   switch (medium.page_id_location) {
     case ('var'): {
       try {
@@ -64,7 +88,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
           idError = {
             message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
             article,
-            medium
+            medium,
+            feedname
           }
         }
       } catch (err) {
@@ -72,7 +97,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         idError = {
           message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
           article,
-          medium
+          medium,
+          feedname
         }
       }
       break;
@@ -82,7 +108,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         idError = {
           message: `No match for ID in [${url}] using mask [${medium.id_mask}]`,
           article,
-          medium
+          medium,
+          feedname
         }
       }
       break;
@@ -95,17 +122,19 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
     titleError = {
       message: `Title element could not be found on [${url}] using selector [${medium.title_query}]`,
       article,
-      medium
+      medium,
+      feedname
     }
   } else {
-    const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
-    if (text.trim() !== article.title?.trim()) {
-      titleError = {
-        message: `Title on page [${text}] did not match title from RSS feed [${article.title}]`,
-        article,
-        medium
-      }
-    }
+    // const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
+    // if (text.trim() !== article.title?.trim()) {
+    //   titleError = {
+    //     message: `Title on page [${text}] did not match title from RSS feed [${article.title}]`,
+    //     article,
+    //     medium,
+    //     feedname
+    //   }
+    // }
   }
 
   await browser.close();

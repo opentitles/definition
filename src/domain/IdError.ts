@@ -4,4 +4,5 @@ export interface IdError {
   message: string;
   article: Item;
   medium: MediumDefinition;
+  feedname: string;
 }
