@@ -67,7 +67,7 @@ export async function addComment(message: string) {
       });
 
       const filteredComments = comments.filter(
-        (c) => c.body === message && c.user.login === "github-actions[bot]"
+        (c: any) => c.body === message && c.user.login === "github-actions[bot]"
       );
 
       if (filteredComments.length) {
