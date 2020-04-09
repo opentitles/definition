@@ -22,7 +22,7 @@ const getPulls = async (repoToken: string, repo: string, commitSha: string) => {
 
 export async function addComment(message: string) {
   try {
-    const repoToken = process.env.GITHUB_REPOSITORY as string;
+    const repoToken = process.env.GITHUB_TOKEN as string;
     const allowRepeats = Boolean(core.getInput("allow-repeats") === "true");
 
     core.debug(`input message: ${message}`);
