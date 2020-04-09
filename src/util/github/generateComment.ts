@@ -1,15 +1,31 @@
+import { Clog, LOGLEVEL } from '@fdebijl/clog';
+
 import { HostError, TitleError, IdError } from "../../domain";
 import { addComment } from "./addComment";
+import { CONFIG } from '../../config';
+
+const clog = new Clog(CONFIG.MIN_LOGLEVEL)
 
 export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
-  if (!hostErrors && !titleErrors && !idErrors) {
-    addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
+  if (!process.env.GITHUB_REPOSITORY) {
+    clog.log('Not commenting since we\'re not running as an action', LOGLEVEL.INFO);
     return;
   }
 
-  const errors = hostErrors.length + titleErrors.length + idErrors.length;
+  if (!hostErrors && !titleErrors && !idErrors) {
+    addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
+    clog.log('Commenting that we passed.', LOGLEVEL.DEBUG);
+    return;
+  }
+
+  let errors = 0;
+  if (hostErrors) errors += hostErrors.length;
+  if (titleErrors) errors += titleErrors.length;
+  if (idErrors) errors += idErrors.length;
+
   if (errors < 1) {
     addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
+    clog.log('Commenting that we passed.', LOGLEVEL.DEBUG);
     return;
   }
 
@@ -41,4 +57,6 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
 
   comment += 'Please address these issues by updating the definition and ammending this PR with your updates.';
   addComment(comment);
+  clog.log('Commenting fixlist.', LOGLEVEL.DEBUG);
+  return;
 };

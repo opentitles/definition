@@ -1,15 +1,18 @@
 import { HostError, TitleError, IdError } from "../../domain";
 import { setStatus } from "./setStatus";
+import { CONFIG } from "../../config";
 
 export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
   if (!process.env.GITHUB_REPOSITORY) {
-    return;
+    return
   }
 
   if (hostErrors?.length > 0) {
-    hostErrors.forEach((hostError) => {
-      console.log(`[${hostError.medium.name}] ${hostError.message}`);
-    });
+    if (CONFIG.LOG_ERRORS_ON_COMPLETION) {
+      hostErrors.forEach((hostError) => {
+        console.log(`[${hostError.medium.name}] ${hostError.message}`);
+      });
+    }
 
     await setStatus('Host Validation', 'failure', `Failed: ${hostErrors.length} ${hostErrors.length > 1 ? 'hosts' : 'host'} didn't respond.`);
   } else {
@@ -17,9 +20,11 @@ export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleE
   }
 
   if (titleErrors?.length > 0) {
-    titleErrors.forEach((titleError) => {
-      console.log(`[${titleError.medium.name}] ${titleError.message}`);
-    });
+    if (CONFIG.LOG_ERRORS_ON_COMPLETION) {
+      titleErrors.forEach((titleError) => {
+        console.log(`[${titleError.medium.name}] ${titleError.message}`);
+      });
+    }
 
     await setStatus('Title Validation', 'failure', `Failed: ${titleErrors.length} ${titleErrors.length > 1 ? 'titles' : 'title'} couldn't be found or ${titleErrors.length > 1 ? 'were' : 'was'} mismatched.`);
   } else {
@@ -27,9 +32,11 @@ export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleE
   }
 
   if (idErrors?.length > 0) {
-    idErrors.forEach((idError) => {
-      console.log(`[${idError.medium.name}] ${idError.message}`);
-    });
+    if (CONFIG.LOG_ERRORS_ON_COMPLETION) {
+      idErrors.forEach((idError) => {
+        console.log(`[${idError.medium.name}] ${idError.message}`);
+      });
+    }
 
     await setStatus('ID Validation', 'failure', `Failed: ${idErrors.length} ${idErrors.length > 1 ? 'IDs' : 'ID'} couldn't be found or ${idErrors.length > 1 ? 'were' : 'was'} mismatched.`);
   } else {

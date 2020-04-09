@@ -5,10 +5,11 @@ import { HostError, TitleError, IdError } from './domain';
 import { validateArticle } from './util/validation';
 import { getFlatMediaDefinition } from './util/media';
 import { getFeedItems, getRandomArticle } from './util/rss';
-import { initStatuses, closeStatuses, addComment, generateComment } from './util/github';
+import { initStatuses, closeStatuses, generateComment } from './util/github';
 import { Item } from 'rss-parser';
+import { CONFIG } from './config';
 
-const clog = new Clog(LOGLEVEL.DEBUG);
+const clog = new Clog(CONFIG.MIN_LOGLEVEL);
 
 getFlatMediaDefinition().then(async (mediaList) => {
   const start = moment();

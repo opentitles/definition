@@ -126,15 +126,15 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       feedname
     }
   } else {
-    const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
-    if (text.trim() !== article.title?.trim()) {
-      titleError = {
-        message: `Title on page [${text}] did not match title from RSS feed [${article.title}]`,
-        article,
-        medium,
-        feedname
-      }
-    }
+    // const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
+    // if (text.trim() !== article.title?.trim()) {
+    //   titleError = {
+    //     message: `Title on page [${text}] did not match title from RSS feed [${article.title}]`,
+    //     article,
+    //     medium,
+    //     feedname
+    //   }
+    // }
   }
 
   await browser.close();

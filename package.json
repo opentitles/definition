@@ -13,19 +13,19 @@
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
     "@actions/http-client": "^1.0.7",
-    "@fdebijl/clog": "^1.22.0",
+    "@fdebijl/clog": "^1.22.1",
     "@octokit/rest": "^17.2.0",
-    "async": "^3.1.1",
+    "async": "^3.2.0",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "puppeteer": "^2.1.1",
-    "rss-parser": "^3.7.5"
+    "rss-parser": "^3.7.6"
   },
   "devDependencies": {
-    "@types/async": "^3.0.7",
-    "@types/node": "^13.7.1",
-    "@types/node-fetch": "^2.5.4",
-    "@types/puppeteer": "^2.0.0",
+    "@types/async": "^3.2.0",
+    "@types/node": "^13.11.1",
+    "@types/node-fetch": "^2.5.5",
+    "@types/puppeteer": "^2.0.1",
     "@types/xml2js": "^0.4.5"
   }
 }
