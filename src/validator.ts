@@ -85,7 +85,6 @@ getFlatMediaDefinition().then(async (mediaList) => {
       await generateComment(hostErrors, titleErrors, idErrors);
       const end = moment();
       clog.log(`Finished scraping run after ${end.diff(start, 'seconds')}s`);
-      process.exit(0);
     }
   }
 

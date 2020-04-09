@@ -85,7 +85,9 @@ export async function addComment(message: string) {
     });
 
     core.setOutput("comment-created", "true");
+    return;
   } catch (error) {
     core.setFailed(error.message);
+    return;
   }
 }
