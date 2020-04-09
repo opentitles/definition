@@ -1,56 +1,45 @@
+import moment from 'moment';
+import { Clog, LOGLEVEL } from '@fdebijl/clog';
+
 import { HostError, TitleError, IdError } from './domain';
 import { validateArticle } from './util/validation';
 import { getFlatMediaDefinition } from './util/media';
 import { getFeedItems, getRandomArticle } from './util/rss';
 import { initStatuses, closeStatuses } from './util/github';
 
+const clog =  new Clog(LOGLEVEL.DEBUG);
+
 getFlatMediaDefinition().then(async (mediaList) => {
+  const start = moment();
+
   await initStatuses();
 
   const hostErrors: HostError[] = []
   const titleErrors: TitleError[] = [];
   const idErrors: IdError[] = [];
 
-  const checkMedium = async (limit: number, i: number = 0) => {
-    if (i < limit) {
-      const medium = mediaList[i];
+  await Promise.all(mediaList.map(async medium => {
+    await Promise.all(medium.feeds.map(async feedname => {
+      clog.log(`Validating ${medium.name}:${feedname}.`, LOGLEVEL.INFO);
+      const feedItems = await getFeedItems(medium.prefix + feedname + medium.suffix);
+      const randomArticle = await getRandomArticle(feedItems);
+      const { hostError, titleError, idError } = await validateArticle(randomArticle, medium);
 
-      const checkFeed = async (innerLimit: number, j: number = 0) => {
-        if (j < innerLimit) {
-          const feedname = medium.feeds[j];
-          console.log(`Validating ${medium.name}:${feedname}.`);
-          const feedItems = await getFeedItems(medium.prefix + feedname + medium.suffix);
-          const randomArticle = await getRandomArticle(feedItems);
-          const { hostError, titleError, idError } = await validateArticle(randomArticle, medium);
-
-          if (hostError) {
-            hostErrors.push(hostError);
-          }
-
-          if (titleError) {
-            titleErrors.push(titleError);
-          }
-
-          if (idError) {
-            idErrors.push(idError);
-          }
-
-          j++;
-          checkFeed(innerLimit, j);
-        } else {
-          // Done with all feeds for this medium, go to next one
-          i++;
-          checkMedium(limit, i);
-        }
+      if (hostError) {
+        hostErrors.push(hostError);
       }
 
-      checkFeed(medium.feeds.length);
-    } else {
-      // Done with all media
-      await closeStatuses(hostErrors, titleErrors, idErrors);
-      process.exit(0);
-    }
-  }
+      if (titleError) {
+        titleErrors.push(titleError);
+      }
 
-  checkMedium(mediaList.length);
+      if (idError) {
+        idErrors.push(idError);
+      }
+    }));
+  }));
+
+  await closeStatuses(hostErrors, titleErrors, idErrors);
+  const end = moment();
+  clog.log(`Finished scraping run after ${end.diff(start, 'seconds')}s`, LOGLEVEL.INFO);
 });
