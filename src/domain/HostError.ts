@@ -4,4 +4,5 @@ export interface HostError {
   message: string;
   article: Item;
   medium: MediumDefinition;
+  feedname: string;
 }

@@ -9,7 +9,7 @@ const parser = new Parser({
   },
 });
 
-export const getFeedItems = async (url: string, medium: MediumDefinition): Promise<Item[] | HostError> => {
+export const getFeedItems = async (url: string, medium: MediumDefinition, feedname: string): Promise<Item[] | HostError> => {
   try {
   const feed = await parser.parseURL(url);
   return feed.items as Item[];
@@ -17,7 +17,8 @@ export const getFeedItems = async (url: string, medium: MediumDefinition): Promi
     return {
       message: '',
       article: {},
-      medium
+      medium,
+      feedname
     }
   }
 };

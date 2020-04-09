@@ -5,18 +5,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x]
     steps:
     - uses: actions/checkout@v1
       with:
         # Checkout the head ref instead of the PR branch that github creates.
         ref: ${{ github.head_ref }}
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js v12
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: Install and build
       run: |
         npm ci

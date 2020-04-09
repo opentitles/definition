@@ -2,7 +2,7 @@ import { Item } from 'rss-parser';
 import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 
-export const validateArticle = async (article: Item, medium: MediumDefinition): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
+export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
     return Promise.resolve({});
   }
@@ -27,7 +27,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         hostError: {
           message: `Could not connect to [${article.link as string}]: no link or GUID in article`,
           article,
-          medium
+          medium,
+          feedname
         }
       }
     }
@@ -42,7 +43,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
           hostError: {
             message: `Could not connect to [${link}]: server returned ${statusCode}`,
             article,
-            medium
+            medium,
+            feedname
           }
         }
       }
@@ -52,7 +54,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
       hostError: {
         message: `Could not connect to [${link as string}]: \n${err}`,
         article,
-        medium
+        medium,
+        feedname
       }
     }
   }
@@ -85,7 +88,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
           idError = {
             message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
             article,
-            medium
+            medium,
+            feedname
           }
         }
       } catch (err) {
@@ -93,7 +97,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         idError = {
           message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
           article,
-          medium
+          medium,
+          feedname
         }
       }
       break;
@@ -103,7 +108,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
         idError = {
           message: `No match for ID in [${url}] using mask [${medium.id_mask}]`,
           article,
-          medium
+          medium,
+          feedname
         }
       }
       break;
@@ -116,7 +122,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
     titleError = {
       message: `Title element could not be found on [${url}] using selector [${medium.title_query}]`,
       article,
-      medium
+      medium,
+      feedname
     }
   } else {
     const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
@@ -124,7 +131,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition): 
       titleError = {
         message: `Title on page [${text}] did not match title from RSS feed [${article.title}]`,
         article,
-        medium
+        medium,
+        feedname
       }
     }
   }
