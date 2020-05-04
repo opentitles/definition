@@ -22,7 +22,7 @@
     "rss-parser": "3.7.6"
   },
   "devDependencies": {
-    "@types/async": "3.2.0",
+    "@types/async": "3.2.1",
     "@types/node": "13.13.4",
     "@types/node-fetch": "2.5.7",
     "@types/puppeteer": "2.0.1",
