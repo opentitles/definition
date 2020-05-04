@@ -16,7 +16,7 @@
     "@fdebijl/clog": "1.25.0",
     "@octokit/rest": "17.6.0",
     "async": "3.2.0",
-    "moment": "2.25.1",
+    "moment": "2.25.2",
     "node-fetch": "2.6.0",
     "puppeteer": "3.0.2",
     "rss-parser": "3.7.6"
