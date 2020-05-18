@@ -22,10 +22,10 @@
     "rss-parser": "3.8.0"
   },
   "devDependencies": {
-    "@types/async": "3.2.1",
-    "@types/node": "13.13.5",
+    "@types/async": "3.2.3",
+    "@types/node": "13.13.6",
     "@types/node-fetch": "2.5.7",
-    "@types/puppeteer": "2.0.1",
+    "@types/puppeteer": "2.1.0",
     "@types/xml2js": "0.4.5"
   }
 }
