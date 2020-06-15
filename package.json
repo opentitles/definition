@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/async": "3.2.3",
-    "@types/node": "13.13.10",
+    "@types/node": "13.13.12",
     "@types/node-fetch": "2.5.7",
     "@types/puppeteer": "3.0.0",
     "@types/xml2js": "0.4.5"
