@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "1.2.4",
-    "@actions/github": "2.2.0",
+    "@actions/github": "3.0.0",
     "@actions/http-client": "1.0.8",
     "@fdebijl/clog": "1.32.0",
     "@octokit/rest": "17.11.2",
