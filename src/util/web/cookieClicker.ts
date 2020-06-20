@@ -1,6 +1,12 @@
 import puppeteer from 'puppeteer';
 
-/* Accept the cookies for sites that use a cookiewall */
+
+/**
+ * Accept the cookies for any sites that use a cookiewall
+ * 
+ * @param page Current page in puppeteer
+ * @param medium Current medium being processed
+ */
 export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefinition): Promise<void> => {
   return new Promise(async (resolve) => {
     switch (medium.name) {
@@ -11,6 +17,10 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
           await page.waitForNavigation()
         }
 
+        resolve();
+        break;
+      }
+      default: {
         resolve();
         break;
       }

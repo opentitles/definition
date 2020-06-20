@@ -8,10 +8,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     return Promise.resolve({});
   }
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    slowMo: 1000
-  });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   await page.setViewport({
