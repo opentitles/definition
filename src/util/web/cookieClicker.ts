@@ -13,8 +13,8 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
       case 'AD': {
         // Pass cookie checks
         if (await page.$('.button.fjs-set-consent') !== null) {
-          page.click('.button.fjs-set-consent');
-          await page.waitForNavigation()
+          await page.waitForNavigation();
+          await page.click('.button.fjs-set-consent');
         }
 
         resolve();
