@@ -55,7 +55,7 @@ export async function addComment(message: string) {
 
     const [owner, repo] = repoFullName.split("/");
 
-    const octokit = new github.getOctoKit(repoToken);
+    const octokit = github.getOctoKit(repoToken);
 
     if (allowRepeats === false) {
       core.debug("repeat comments are disallowed, checking for existing");
