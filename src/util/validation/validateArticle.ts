@@ -53,7 +53,21 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   } catch (err) {
     return {
       hostError: {
-        message: `Could not connect to [${link as string}]: \n${err}`,
+        message: `Could not connect to [${link}]: \n${err}`,
+        article,
+        medium,
+        feedname
+      }
+    }
+  }
+
+  // Verify the cookie wall can be bypassed
+  try {
+    await cookieClicker(page, medium);
+  } catch (error) {
+    return {
+      hostError: {
+        message: `Could not connect to [${link}]: cookie wall could not be dismissed.`,
         article,
         medium,
         feedname
@@ -64,8 +78,6 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   let titleError: TitleError | undefined = undefined;
   let idError: IdError | undefined  = undefined;
 
-  // Accept cookies to get rid of any cookiewalls
-  await cookieClicker(page, medium);
   // Verify page has accessible ID
   const url = await page.url();
 
