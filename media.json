@@ -460,7 +460,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nytimes.com"],
-        "title_query": "span.balancedHeadline"
+        "title_query": "h1[itemprop=\"headline\"]"
       },
       {
         "name": "Los Angeles Times",
