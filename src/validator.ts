@@ -81,10 +81,12 @@ getFlatMediaDefinition().then(async (mediaList) => {
       checkFeed(medium.feeds.length);
     } else {
       // Done with all media, wrap up by setting the status on the checks and adding a comment indicating which media need fixing.
-      await closeStatuses(hostErrors, titleErrors, idErrors);
-      await generateComment(hostErrors, titleErrors, idErrors);
       const end = moment();
-      clog.log(`Finished scraping run after ${end.diff(start, 'seconds')}s`);
+      const minutes = end.diff(start, 'minutes');
+      const seconds = end.diff(start, 'seconds');
+      clog.log(`Finished scraping run after ${minutes}m ${seconds}s`);
+      await closeStatuses(hostErrors, titleErrors, idErrors);
+      await generateComment(hostErrors, titleErrors, idErrors, minutes, seconds);
       setTimeout(() => {
         if ((hostErrors.length + titleErrors.length + idErrors.length) > 0) {
           process.exit(1);

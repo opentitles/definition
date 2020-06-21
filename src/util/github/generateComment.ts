@@ -2,12 +2,10 @@ import { Clog, LOGLEVEL } from '@fdebijl/clog';
 
 import { HostError, TitleError, IdError } from "../../domain";
 import { addComment } from "./addComment";
-import { CONFIG } from '../../config';
-import { title } from 'process';
 
 const clog = new Clog()
 
-export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
+export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[], minutes: number, seconds: number) => {
   if (!process.env.GITHUB_REPOSITORY) {
     clog.log('Not commenting since we\'re not running as an action', LOGLEVEL.INFO);
     return;
@@ -30,7 +28,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     return;
   }
 
-  let comment = `The definition validator encountered ${errors} ${errors > 1 ? 'errors' : 'error'}:\n\n`;
+  let comment = `The definition validator finished its run in ${minutes}m ${seconds}s and encountered ${errors} ${errors > 1 ? 'errors' : 'error'}:\n\n`;
 
   if (hostErrors && hostErrors.length > 0) {
     comment += `**[${hostErrors.length}] Network or host ${hostErrors.length > 1 ? 'errors' : 'error'}:**\n`
