@@ -112,7 +112,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
-        "title_query": "h1.ArticleTitle__title"
+        "title_query": "h1.ArticleTitleBlock__title"
       },
       {
         "name": "NU.nl",
@@ -137,7 +137,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nu.nl"],
-        "title_query": ".headerimage > .title.fluid"
+        "title_query": ".headerimage .title.fluid"
       },
       {
         "name": "Tweakers",
