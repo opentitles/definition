@@ -493,7 +493,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["usatoday.com"],
-        "title_query": "h1[itemprop=\"headline\"]"
+        "title_query": "h1.title"
       },
       {
         "name": "The Wall Street Journal",
