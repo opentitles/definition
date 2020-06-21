@@ -26,7 +26,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     if (!link) {
       return {
         hostError: {
-          message: `Could not connect to [${article.link as string}]: no link or GUID in article`,
+          message: `Could not connect to [${medium.name}: ${article.title}]: no link or GUID in article`,
           article,
           medium,
           feedname
@@ -42,7 +42,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         await browser.close();
         return {
           hostError: {
-            message: `Could not connect to [${link}]: server returned ${statusCode}`,
+            message: `Could not connect to <${link}>: server returned ${statusCode}`,
             article,
             medium,
             feedname
@@ -53,7 +53,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   } catch (err) {
     return {
       hostError: {
-        message: `Could not connect to [${link}]: \n${err}`,
+        message: `Could not connect to <${link}>: \n${err}`,
         article,
         medium,
         feedname
@@ -67,7 +67,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   } catch (error) {
     return {
       hostError: {
-        message: `Could not connect to [${link}]: cookie wall could not be dismissed.`,
+        message: `Could not connect to <${link}>: cookie wall could not be dismissed.`,
         article,
         medium,
         feedname
@@ -97,7 +97,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         });
         if (!id) {
           idError = {
-            message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
+            message: `No match for ID on <${url}> using path to window variable [${medium.page_id_query}]`,
             article,
             medium,
             feedname
@@ -106,7 +106,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       } catch (err) {
         // Most likely a type error because the path to var is broken
         idError = {
-          message: `No match for ID on [${url}] using path to window variable [${medium.page_id_query}]`,
+          message: `No match for ID on <${url}> using path to window variable [${medium.page_id_query}]`,
           article,
           medium,
           feedname
@@ -117,7 +117,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     case ('url'): {
       if (!url.match(medium.id_mask)) {
         idError = {
-          message: `No match for ID in [${url}] using mask [${medium.id_mask}]`,
+          message: `No match for ID in <${url}> using mask [${medium.id_mask}]`,
           article,
           medium,
           feedname
@@ -131,7 +131,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   const titleElement = await page.$(medium.title_query);
   if (!titleElement) {
     titleError = {
-      message: `Title element could not be found on [${url}] using selector [${medium.title_query}]`,
+      message: `Title element could not be found on <${url}> using selector [${medium.title_query}]`,
       article,
       medium,
       feedname
