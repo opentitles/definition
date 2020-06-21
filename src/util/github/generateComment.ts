@@ -3,6 +3,7 @@ import { Clog, LOGLEVEL } from '@fdebijl/clog';
 import { HostError, TitleError, IdError } from "../../domain";
 import { addComment } from "./addComment";
 import { CONFIG } from '../../config';
+import { title } from 'process';
 
 const clog = new Clog()
 
@@ -23,7 +24,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
   if (titleErrors) errors += titleErrors.length;
   if (idErrors) errors += idErrors.length;
 
-  if (errors < 1) {
+  if (errors === 0) {
     addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
     clog.log('Commenting that we passed.', LOGLEVEL.DEBUG);
     return;
@@ -31,7 +32,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
 
   let comment = `The definition validator encountered ${errors} ${errors > 1 ? 'errors' : 'error'}:\n\n`;
 
-  if (hostErrors) {
+  if (hostErrors && hostErrors.length > 0) {
     comment += `**[${hostErrors.length}] Network or host ${hostErrors.length > 1 ? 'errors' : 'error'}:**\n`
     hostErrors.forEach(hostError => {
       comment += `- [ ] ${hostError.medium.name}:${hostError.feedname} - ${hostError.message}\n`
@@ -39,7 +40,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     comment += `\n`;
   }
 
-  if (titleErrors) {
+  if (titleErrors && titleErrors.length > 0) {
     comment += `**[${titleErrors.length}] Title detection or parsing ${titleErrors.length > 1 ? 'errors' : 'error'}:**\n`
     titleErrors.forEach(titleError => {
       comment += `- [ ] ${titleError.medium.name}:${titleError.feedname} - ${titleError.message}\n`
@@ -47,7 +48,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     comment += `\n`;
   }
 
-  if (idErrors) {
+  if (idErrors && idErrors.length > 0) {
     comment += `**[${idErrors.length}] ID detection or parsing ${idErrors.length > 1 ? 'errors' : 'error'}:**\n`
     idErrors.forEach(idError => {
       comment += `- [ ] ${idError.medium.name}:${idError.feedname} - ${idError.message}\n`
