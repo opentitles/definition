@@ -14,6 +14,9 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
     }
 
     switch (medium.name) {
+      case 'Parool':
+      case 'Trouw':
+      case 'Volkskrant':
       case 'AD': {
         try {
           if (await page.$('.button.fjs-set-consent') !== null) {
