@@ -1,6 +1,7 @@
 import { Item } from 'rss-parser';
 import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
+import { cookieClicker } from '../web/cookieClicker';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
@@ -52,7 +53,21 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   } catch (err) {
     return {
       hostError: {
-        message: `Could not connect to [${link as string}]: \n${err}`,
+        message: `Could not connect to [${link}]: \n${err}`,
+        article,
+        medium,
+        feedname
+      }
+    }
+  }
+
+  // Verify the cookie wall can be bypassed
+  try {
+    await cookieClicker(page, medium);
+  } catch (error) {
+    return {
+      hostError: {
+        message: `Could not connect to [${link}]: cookie wall could not be dismissed.`,
         article,
         medium,
         feedname
@@ -65,10 +80,6 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
   // Verify page has accessible ID
   const url = await page.url();
-
-  // Pass cookie checks
-  if (await page.$('.button.fjs-set-consent') !== null) page.click('.button.fjs-set-consent');
-
 
   switch (medium.page_id_location) {
     case ('var'): {
@@ -126,6 +137,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       feedname
     }
   } else {
+    // Skipping this test for now, it's very inconsistent
+    //
     // const text = await page.evaluate(titleElement => titleElement.textContent, titleElement);
     // if (text.trim() !== article.title?.trim()) {
     //   titleError = {

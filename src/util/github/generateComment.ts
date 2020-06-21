@@ -4,7 +4,7 @@ import { HostError, TitleError, IdError } from "../../domain";
 import { addComment } from "./addComment";
 import { CONFIG } from '../../config';
 
-const clog = new Clog(CONFIG.MIN_LOGLEVEL)
+const clog = new Clog()
 
 export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
   if (!process.env.GITHUB_REPOSITORY) {
