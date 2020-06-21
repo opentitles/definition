@@ -553,7 +553,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["vice.com"],
-        "title_query": "h1.article__title"
+        "title_query": "h1.heading"
       },
       {
         "name": "VICE News",
