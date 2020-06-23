@@ -30,8 +30,34 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         } catch(error) {
           if (error.name === 'TimeoutError') {
             // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here.
-            const url = await page.url();
+            const url = page.url();
             if (url.includes('myprivacy.dpgmedia.net')) {
+              resolve(cookieClicker(page, medium, retryCount++));
+            } else {
+              resolve();
+            }
+          } else {
+            reject();
+          }
+        } finally {
+          break;
+        }
+      }
+      case 'HVNL': {
+        try {
+          const selector = 'div.card-body.paragraph-default-black > button.component-button--primary'
+          if (await page.$(selector) !== null) {
+            await Promise.all([
+              page.waitForNavigation(),
+              page.click(selector)
+            ]);
+          }
+
+          resolve();
+        } catch(error) {
+          if (error.name === 'TimeoutError') {
+            const url = page.url();
+            if (url.includes('consent.talpanetwork.com')) {
               resolve(cookieClicker(page, medium, retryCount++));
             } else {
               resolve();
