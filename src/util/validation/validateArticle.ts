@@ -80,6 +80,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
   // Verify page has accessible ID
   const url = await page.url();
+  await page.waitFor(1000);
 
   switch (medium.page_id_location) {
     case ('var'): {

@@ -75,6 +75,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
             }
           } catch (error) {
             clog.log(error, LOGLEVEL.ERROR);
+            clog.log(`FAIL ${medium.name}:${feedname}`, LOGLEVEL.ERROR);
           } finally {
             j++;
             checkFeed(innerLimit, j);
