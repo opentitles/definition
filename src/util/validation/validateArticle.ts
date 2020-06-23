@@ -2,6 +2,7 @@ import { Item } from 'rss-parser';
 import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 import { cookieClicker } from '../web/cookieClicker';
+import { findTitleElement } from './findTitleElement';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
@@ -129,10 +130,11 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // Verify title is present on page and matches that from the RSS feed
-  const titleElement = await page.$(medium.title_query);
+  const titleElement = await findTitleElement(medium, page);
+
   if (!titleElement) {
     titleError = {
-      message: `Title element could not be found on <${url}> using selector [${medium.title_query}]`,
+      message: `Title element could not be found on <${url}> using selectors [${medium.title_query}]`,
       article,
       medium,
       feedname
