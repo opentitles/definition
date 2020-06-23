@@ -21,7 +21,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         // De Persgroep
         resolve(clickButtonAndRetryOnFail({
           selector: '.button.fjs-set-consent',
-          expectsNavigation: false, 
+          expectsNavigation: true, 
           page,
           medium
         }));
@@ -31,7 +31,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         // Talpa
         resolve(clickButtonAndRetryOnFail({
           selector: 'div.card-body.paragraph-default-black > button.component-button--primary',
-          expectsNavigation: false, 
+          expectsNavigation: true, 
           page,
           medium
         }));
@@ -42,7 +42,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         // NDC Mediagroep
         resolve(clickButtonAndRetryOnFail({
           selector: '#simple-view form > div.buttons > input',
-          expectsNavigation: false, 
+          expectsNavigation: true, 
           page,
           medium
         }));
