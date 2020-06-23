@@ -9,7 +9,10 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     return Promise.resolve({});
   }
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    slowMo: 500,
+    headless: false
+  });
   const page = await browser.newPage();
 
   await page.setViewport({
@@ -96,7 +99,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
             resolve(out);
           });
-        });
+        }, medium);
         if (!id) {
           idError = {
             message: `No match for ID on <${url}> using path to window variable [${medium.page_id_query}]`,
@@ -153,6 +156,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
+  await page.waitFor(1000);
   await browser.close();
 
   return {

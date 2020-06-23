@@ -133,11 +133,11 @@
           "Gezondheid"
         ],
         "id_container": "guid",
-        "id_mask": "([0-9]){7}",
+        "id_mask": "([0-9]){6,7}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nu.nl"],
-        "title_query": [".headerimage .title.fluid"]
+        "title_query": [".headerimage .title.fluid", ".block-content > .caption > h1"]
       },
       {
         "name": "Tweakers",
@@ -185,7 +185,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
-        "title_query": [".artstyle__header-title"]
+        "title_query": [".artstyle__header-title", "nav > h1.title", "h1.artstyle__header-title"]
       },
       {
         "name": "RTL",
@@ -217,7 +217,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["trouw.nl"],
-        "title_query": ["h1.article__header__title"]
+        "title_query": ["h1.artstyle__header-title"]
       },
       {
         "name": "Parool",
@@ -292,7 +292,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["dvhn.nl"],
-        "title_query": ["article.artikeltekst > header > h1"]
+        "title_query": ["h1.article-page__title"]
       },
       {
         "name": "LC",
@@ -304,7 +304,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["lc.nl"],
-        "title_query": ["article > header > h1"]
+        "title_query": ["h1.article-page__title"]
       },
       {
         "name": "RD",
@@ -356,7 +356,7 @@
     ],
     "us": [
       {
-        "name": "CBS News",
+        "name": "CBS",
         "prefix": "https://www.cbsnews.com/latest/rss/",
         "suffix": "",
         "feeds": [
@@ -374,7 +374,7 @@
         "page_id_location": "var",
         "page_id_query": "CBSNEWS.tracking.articleId",
         "match_domains": ["cbsnews.com"],
-        "title_query": ["player__bottom-bar > h1.heading__now-playing"]
+        "title_query": [".player__bottom-bar h1.now-playing__hed", "h1.content__title"]
       },
       {
         "name": "CNN",
@@ -408,7 +408,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["cnn.com", "edition.cnn.com"],
-        "title_query": [".l-container > h1.pg-headline"]
+        "title_query": [".l-container > h1.pg-headline", "h1.Article__title"]
       },
       {
         "name": "MSNBC",
