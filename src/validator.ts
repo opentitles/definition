@@ -14,6 +14,8 @@ const clog = new Clog(CONFIG.MIN_LOGLEVEL);
 getFlatMediaDefinition().then(async (mediaList) => {
   const start = moment();
 
+  const mediaToProcess = process.argv.slice(2);
+
   await initStatuses();
 
   const hostErrors: HostError[] = []
@@ -23,6 +25,14 @@ getFlatMediaDefinition().then(async (mediaList) => {
   const checkMedium = async (limit: number, i: number = 0) => {
     if (i < limit) {
       const medium = mediaList[i];
+
+      if (mediaToProcess.length > 0) {
+        if (!mediaToProcess.includes(medium.name)) {
+          i++;
+          checkMedium(limit, i);
+          return;
+        }
+      }
 
       const checkFeed = async (innerLimit: number, j: number = 0) => {
         if (j < innerLimit) {
@@ -81,10 +91,12 @@ getFlatMediaDefinition().then(async (mediaList) => {
       checkFeed(medium.feeds.length);
     } else {
       // Done with all media, wrap up by setting the status on the checks and adding a comment indicating which media need fixing.
-      await closeStatuses(hostErrors, titleErrors, idErrors);
-      await generateComment(hostErrors, titleErrors, idErrors);
       const end = moment();
-      clog.log(`Finished scraping run after ${end.diff(start, 'seconds')}s`);
+      const minutes = end.diff(start, 'minutes');
+      const seconds = end.diff(start, 'seconds');
+      clog.log(`Finished scraping run after ${minutes}m ${seconds}s`);
+      await closeStatuses(hostErrors, titleErrors, idErrors);
+      await generateComment(hostErrors, titleErrors, idErrors, minutes, seconds);
       setTimeout(() => {
         if ((hostErrors.length + titleErrors.length + idErrors.length) > 0) {
           process.exit(1);

@@ -112,7 +112,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
-        "title_query": "h1.ArticleTitle__title"
+        "title_query": "h1.ArticleTitleBlock__title"
       },
       {
         "name": "NU.nl",
@@ -137,7 +137,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nu.nl"],
-        "title_query": ".headerimage > .title.fluid"
+        "title_query": ".headerimage .title.fluid"
       },
       {
         "name": "Tweakers",
@@ -460,7 +460,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nytimes.com"],
-        "title_query": "span.balancedHeadline"
+        "title_query": "h1[itemprop=\"headline\"]"
       },
       {
         "name": "Los Angeles Times",
@@ -493,7 +493,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["usatoday.com"],
-        "title_query": "h1[itemprop=\"headline\"]"
+        "title_query": "h1.title"
       },
       {
         "name": "The Wall Street Journal",
@@ -553,7 +553,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["vice.com"],
-        "title_query": "h1.article__title"
+        "title_query": "h1.heading"
       },
       {
         "name": "VICE News",
