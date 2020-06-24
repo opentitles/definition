@@ -18,34 +18,84 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
       case 'Trouw':
       case 'Volkskrant':
       case 'AD': {
-        try {
-          if (await page.$('.button.fjs-set-consent') !== null) {
-            await Promise.all([
-              page.waitForNavigation(),
-              page.click('.button.fjs-set-consent')
-            ]);
-          }
-
-          resolve();
-        } catch(error) {
-          if (error.name === 'TimeoutError') {
-            // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here.
-            const url = await page.url();
-            if (url.includes('myprivacy.dpgmedia.net')) {
-              resolve(cookieClicker(page, medium, retryCount++));
-            } else {
-              resolve();
-            }
-          } else {
-            reject();
-          }
-        } finally {
-          break;
-        }
+        // De Persgroep
+        resolve(clickButtonAndRetryOnFail({
+          selector: '.button.fjs-set-consent',
+          expectsNavigation: true, 
+          page,
+          medium
+        }));
+        break;
+      }
+      case 'HVNL': {
+        // Talpa
+        resolve(clickButtonAndRetryOnFail({
+          selector: 'div.card-body.paragraph-default-black > button.component-button--primary',
+          expectsNavigation: true, 
+          page,
+          medium
+        }));
+        break;
+      }
+      case 'LC':
+      case 'DVHN': {
+        // NDC Mediagroep
+        resolve(clickButtonAndRetryOnFail({
+          selector: '#simple-view form > div.buttons > input',
+          expectsNavigation: true, 
+          page,
+          medium
+        }));
+        break;
+      }
+      case 'CBS': {
+        // NDC Mediagroep
+        resolve(clickButtonAndRetryOnFail({
+          selector: 'button#onetrust-accept-btn-handler',
+          expectsNavigation: false, 
+          page,
+          medium
+        }));
+        break;
       }
       default: {
         resolve();
         break;
+      }
+    }
+  });
+}
+
+const clickButtonAndRetryOnFail = async (
+  {selector, expectsNavigation, page, medium, retryCount = 0}:
+  {selector: string, expectsNavigation: boolean, page: puppeteer.Page, medium: MediumDefinition, retryCount?: number}
+): Promise<void> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (await page.$(selector) !== null) {
+        if (expectsNavigation) {
+          await Promise.all([
+            page.waitForNavigation(),
+            page.click(selector)
+          ]);
+        } else {
+          await page.click(selector);
+        }
+      }
+
+      resolve();
+    } catch(error) {
+      if (error.name === 'TimeoutError') {
+        // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here (up to three times before failing this medium).
+        resolve(clickButtonAndRetryOnFail({
+          selector,
+          expectsNavigation,
+          page,
+          medium,
+          retryCount: retryCount++
+        }));
+      } else {
+        reject();
       }
     }
   });

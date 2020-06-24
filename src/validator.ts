@@ -75,6 +75,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
             }
           } catch (error) {
             clog.log(error, LOGLEVEL.ERROR);
+            clog.log(`FAIL ${medium.name}:${feedname}`, LOGLEVEL.ERROR);
           } finally {
             j++;
             checkFeed(innerLimit, j);
@@ -93,7 +94,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
       // Done with all media, wrap up by setting the status on the checks and adding a comment indicating which media need fixing.
       const end = moment();
       const minutes = end.diff(start, 'minutes');
-      const seconds = end.diff(start, 'seconds');
+      const seconds = (end.diff(start, 'seconds')) % 60;
       clog.log(`Finished scraping run after ${minutes}m ${seconds}s`);
       await closeStatuses(hostErrors, titleErrors, idErrors);
       await generateComment(hostErrors, titleErrors, idErrors, minutes, seconds);

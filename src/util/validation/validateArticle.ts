@@ -2,12 +2,14 @@ import { Item } from 'rss-parser';
 import puppeteer from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 import { cookieClicker } from '../web/cookieClicker';
+import { findTitleElement } from './findTitleElement';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
     return Promise.resolve({});
   }
 
+  // TODO: Add catch for problems with launching puppeteer
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -80,6 +82,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
   // Verify page has accessible ID
   const url = await page.url();
+  await page.waitFor(1000);
 
   switch (medium.page_id_location) {
     case ('var'): {
@@ -94,7 +97,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
             resolve(out);
           });
-        });
+        }, medium);
         if (!id) {
           idError = {
             message: `No match for ID on <${url}> using path to window variable [${medium.page_id_query}]`,
@@ -128,10 +131,11 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // Verify title is present on page and matches that from the RSS feed
-  const titleElement = await page.$(medium.title_query);
+  const titleElement = await findTitleElement(medium, page);
+
   if (!titleElement) {
     titleError = {
-      message: `Title element could not be found on <${url}> using selector [${medium.title_query}]`,
+      message: `Title element could not be found on <${url}> using selectors [${medium.title_query}]`,
       article,
       medium,
       feedname
@@ -150,6 +154,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
+  await page.waitFor(1000);
   await browser.close();
 
   return {
