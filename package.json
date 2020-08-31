@@ -10,11 +10,11 @@
   "author": "Floris de Bijl",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.2.4",
+    "@actions/core": "1.2.5",
     "@actions/github": "3.0.0",
     "@actions/http-client": "1.0.8",
     "@fdebijl/clog": "1.44.0",
-    "@octokit/rest": "18.0.3",
+    "@octokit/rest": "18.0.4",
     "async": "3.2.0",
     "moment": "2.27.0",
     "node-fetch": "2.6.0",
