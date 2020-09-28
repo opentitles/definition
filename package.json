@@ -10,15 +10,15 @@
   "author": "Floris de Bijl",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.2.5",
+    "@actions/core": "1.2.6",
     "@actions/github": "4.0.0",
     "@actions/http-client": "1.0.8",
-    "@fdebijl/clog": "1.48.0",
+    "@fdebijl/clog": "1.49.0",
     "@octokit/rest": "18.0.6",
     "async": "3.2.0",
-    "moment": "2.28.0",
+    "moment": "2.29.0",
     "node-fetch": "2.6.1",
-    "puppeteer": "5.3.0",
+    "puppeteer": "5.3.1",
     "rss-parser": "3.9.0"
   },
   "devDependencies": {
