@@ -115,7 +115,7 @@
         "title_query": ["h1.ArticleTitleBlock__title"]
       },
       {
-        "name": "NU.nl",
+        "name": "NUnl",
         "prefix": "https://nu.nl/rss/",
         "suffix": "",
         "feeds": [
