@@ -20,7 +20,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
       case 'AD': {
         // De Persgroep
         resolve(clickButtonAndRetryOnFail({
-          selector: '.button.fjs-set-consent',
+          selector: 'button.pg-accept-button',
           expectsNavigation: true, 
           page,
           medium

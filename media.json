@@ -553,10 +553,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["vice.com"],
-        "title_query": ["h1.heading"]
+        "title_query": ["h1.heading", ".article__header h1"]
       },
       {
-        "name": "VICE News",
+        "name": "VICENews",
         "prefix": "https://news.vice.com/",
         "suffix": "/rss",
         "feeds": [
@@ -629,7 +629,7 @@
     ],
     "uk": [
       {
-        "name": "The Guardian",
+        "name": "TheGuardian",
         "prefix": "http://www.theguardian.com/",
         "suffix": "/rss",
         "feeds": [
