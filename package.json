@@ -14,11 +14,11 @@
     "@actions/github": "4.0.0",
     "@actions/http-client": "1.0.9",
     "@fdebijl/clog": "1.55.0",
-    "@octokit/rest": "18.0.6",
+    "@octokit/rest": "18.0.8",
     "async": "3.2.0",
     "moment": "2.29.1",
     "node-fetch": "2.6.1",
-    "puppeteer": "5.4.0",
+    "puppeteer": "5.4.1",
     "rss-parser": "3.9.0"
   },
   "devDependencies": {
