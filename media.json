@@ -275,7 +275,7 @@
         "suffix": "",
         "feeds": ["feed"],
         "id_container": "guid",
-        "id_mask": "([0-9]){7}",
+        "id_mask": "\/([^/]*)\/[^/]*$",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["hartvannederland.nl"],
