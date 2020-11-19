@@ -184,7 +184,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
-        "title_query": [".artstyle__header-title", "nav > h1.title", "h1.artstyle__header-title"]
+        "title_query": [".artstyle__header-title", "nav > h1.title", "h1.artstyle__header-title", ".h1-headline"]
       },
       {
         "name": "RTL",
