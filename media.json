@@ -661,36 +661,6 @@
         "page_id_query": "",
         "match_domains": ["theguardian.com"],
         "title_query": ["h1[itemprop=\"headline\"]"]
-      },
-      {
-        "name": "Reuters",
-        "prefix": "http://feeds.reuters.com/",
-        "suffix": "",
-        "feeds": [
-          "news/artsculture",
-          "reuters/businessNews",
-          "reuters/companyNews",
-          "reuters/entertainment",
-          "reuters/environment",
-          "reuters/healthNews",
-          "reuters/lifestyle",
-          "news/wealth",
-          "reuters/oddlyEnoughNews",
-          "reuters/peopleNews",
-          "Reuters/PoliticsNews",
-          "reuters/scienceNews",
-          "reuters/sportsNews",
-          "reuters/technologyNews",
-          "reuters/topNews",
-          "Reuters/domesticNews",
-          "Reuters/worldNews"
-        ],
-        "id_container": "guid",
-        "id_mask": "id([A-Z0-9]{11})",
-        "page_id_location": "url",
-        "page_id_query": "",
-        "match_domains": ["reuters.com"],
-        "title_query": ["h1.ArticleHeader_headline"]
       }
     ]
   }
