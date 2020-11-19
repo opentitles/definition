@@ -103,7 +103,7 @@
       },
       {
         "name": "Telegraaf",
-        "prefix": "https://telegraaf.nl/",
+        "prefix": "https://www.telegraaf.nl/",
         "suffix": "",
         "feeds": ["rss"],
         "id_container": "guid",
