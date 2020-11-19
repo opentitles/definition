@@ -10,7 +10,9 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // TODO: Add catch for problems with launching puppeteer
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--disable-dev-shm-usage']
+  });
   const page = await browser.newPage();
   await page.setUserAgent('GoogleBot');
   
@@ -137,6 +139,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
+  await page.waitForTimeout(500);
   await browser.close();
 
   return {
