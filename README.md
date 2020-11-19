@@ -1,3 +1,8 @@
+<p align="center">
+ <img src="https://raw.githubusercontent.com/opentitles/client/master/images/header.png")/>
+ <i>See https://opentitles.info/ for download links and more information.</i>
+</p>
+
 # OpenTitles Definition
 
 The definition repository contains the list of media that OpenTitles keeps track of. Feel free to open a pull request to add a new medium!

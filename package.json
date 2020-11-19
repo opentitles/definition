@@ -13,22 +13,22 @@
     "@actions/core": "1.2.6",
     "@actions/github": "4.0.0",
     "@actions/http-client": "1.0.9",
-    "@fdebijl/clog": "1.54.0",
-    "@octokit/rest": "18.0.6",
+    "@fdebijl/clog": "1.59.0",
+    "@octokit/rest": "18.0.9",
     "async": "3.2.0",
     "moment": "2.29.1",
     "node-fetch": "2.6.1",
-    "puppeteer": "5.3.1",
+    "puppeteer": "5.5.0",
     "rss-parser": "3.9.0"
   },
   "devDependencies": {
-    "@types/async": "3.2.3",
-    "@types/node": "13.13.26",
+    "@types/async": "3.2.4",
+    "@types/node": "13.13.30",
     "@types/node-fetch": "2.5.7",
-    "@types/puppeteer": "3.0.2",
-    "@types/xml2js": "0.4.5",
-    "@typescript-eslint/eslint-plugin": "4.4.1",
-    "@typescript-eslint/parser": "4.4.1",
-    "eslint": "7.11.0"
+    "@types/puppeteer": "5.4.0",
+    "@types/xml2js": "0.4.6",
+    "@typescript-eslint/eslint-plugin": "4.7.0",
+    "@typescript-eslint/parser": "4.7.0",
+    "eslint": "7.13.0"
   }
 }
