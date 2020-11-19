@@ -376,6 +376,27 @@
         "title_query": [".player__bottom-bar h1.now-playing__hed", "h1.content__title"]
       },
       {
+        "name": "CNNUS",
+        "prefix": "http://rss.cnn.com/rss/",
+        "suffix": ".rss",
+        "feeds": [
+          "cnn_topstories",
+          "cnn_world",
+          "cnn_us",
+          "cnn_allpolitics",
+          "cnn_tech",
+          "cnn_health",
+          "cnn_showbiz",
+          "cnn_travel"
+        ],
+        "id_container": "guid",
+        "id_mask": "\/([^/]*)\/[^/]*$",
+        "page_id_location": "url",
+        "page_id_query": "",
+        "match_domains": ["us.cnn.com"],
+        "title_query": [".l-container > h1.pg-headline", "h1.Article__title"]
+      },
+      {
         "name": "CNN",
         "prefix": "http://rss.cnn.com/rss/",
         "suffix": ".rss",
