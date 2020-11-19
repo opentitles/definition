@@ -228,7 +228,7 @@
           "verkiezingen",
           "opinie",
           "sport",
-          "kust-media",
+          "kunst-media",
           "binnenland",
           "buitenland",
           "trending"
@@ -238,7 +238,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["parool.nl"],
-        "title_query": ["h1.article__title"]
+        "title_query": [".artstyle__header-title"]
       },
       {
         "name": "Limburger",
@@ -393,7 +393,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["us.cnn.com"],
-        "title_query": [".l-container > h1.pg-headline", "h1.Article__title"]
+        "title_query": [".l-container > h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
       },
       {
         "name": "CNN",
@@ -427,7 +427,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["cnn.com", "edition.cnn.com"],
-        "title_query": [".l-container > h1.pg-headline", "h1.Article__title"]
+        "title_query": [".l-container > h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
       },
       {
         "name": "MSNBC",
@@ -470,7 +470,6 @@
           "Environment",
           "Space",
           "Health",
-          "Research",
           "HealthCarePolicy",
           "HomePage"
         ],
@@ -538,7 +537,6 @@
         "feeds": [
           "en_us",
           "fr_ca",
-          "en_ca",
           "de",
           "sv",
           "en_au",
