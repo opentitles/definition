@@ -1,3 +1,4 @@
+import { retry } from 'async';
 import puppeteer from 'puppeteer';
 
 
@@ -14,19 +15,19 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
     }
 
     switch (medium.name) {
-      case 'Parool':
-      case 'Trouw':
-      case 'Volkskrant':
-      case 'AD': {
-        // De Persgroep
-        resolve(clickButtonAndRetryOnFail({
-          selector: '.button.fjs-set-consent',
-          expectsNavigation: true, 
-          page,
-          medium
-        }));
-        break;
-      }
+      // case 'Parool':
+      // case 'Trouw':
+      // case 'Volkskrant':
+      // case 'AD': {
+      //   // De Persgroep
+      //   resolve(clickButtonAndRetryOnFail({
+      //     selector: 'button.pg-accept-button',
+      //     expectsNavigation: true, 
+      //     page,
+      //     medium
+      //   }));
+      //   break;
+      // }
       case 'HVNL': {
         // Talpa
         resolve(clickButtonAndRetryOnFail({
@@ -72,12 +73,10 @@ const clickButtonAndRetryOnFail = async (
 ): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (await page.$(selector) !== null) {
+      if (await page.waitForSelector(selector, { timeout: 2000 }) !== null) {
         if (expectsNavigation) {
-          await Promise.all([
-            page.waitForNavigation(),
-            page.click(selector)
-          ]);
+          page.click(selector),
+          await page.waitForNavigation({waitUntil: 'domcontentloaded'})
         } else {
           await page.click(selector);
         }
@@ -85,17 +84,18 @@ const clickButtonAndRetryOnFail = async (
 
       resolve();
     } catch(error) {
-      if (error.name === 'TimeoutError') {
+      if (error.name === 'TimeoutError' && retryCount <= 3) {
         // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here (up to three times before failing this medium).
+        retryCount++;
         resolve(clickButtonAndRetryOnFail({
           selector,
           expectsNavigation,
           page,
           medium,
-          retryCount: retryCount++
+          retryCount
         }));
       } else {
-        reject();
+        resolve();
       }
     }
   });

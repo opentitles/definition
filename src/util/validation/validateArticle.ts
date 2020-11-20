@@ -10,16 +10,12 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // TODO: Add catch for problems with launching puppeteer
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  await page.setViewport({
-    width: 1920,
-    height: 1080,
-    deviceScaleFactor: 1,
-    isMobile: false
+  const browser = await puppeteer.launch({
+    args: ['--disable-dev-shm-usage']
   });
-
+  const page = await browser.newPage();
+  await page.setUserAgent('GoogleBot');
+  
   const link: string | undefined = article.link || article.guid || undefined;
 
   // Verify host can be reached
@@ -63,26 +59,15 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     }
   }
 
-  // Verify the cookie wall can be bypassed
-  try {
-    await cookieClicker(page, medium);
-  } catch (error) {
-    return {
-      hostError: {
-        message: `Could not connect to <${link}>: cookie wall could not be dismissed.`,
-        article,
-        medium,
-        feedname
-      }
-    }
-  }
+  // Make a best-effort attempt to bypass any cookie walls
+  // Fails silently
+  await cookieClicker(page, medium);
 
   let titleError: TitleError | undefined = undefined;
   let idError: IdError | undefined  = undefined;
 
   // Verify page has accessible ID
   const url = await page.url();
-  await page.waitFor(1000);
 
   switch (medium.page_id_location) {
     case ('var'): {
@@ -154,7 +139,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
-  await page.waitFor(1000);
+  await page.waitForTimeout(500);
   await browser.close();
 
   return {
