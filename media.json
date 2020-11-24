@@ -107,7 +107,7 @@
         "suffix": "",
         "feeds": ["rss"],
         "id_container": "guid",
-        "id_mask": "([0-9]){7}",
+        "id_mask": "([0-9]){7-9}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
@@ -203,7 +203,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["rtlnieuws.nl", "bright.nl"],
-        "title_query": ["div.article-title-width > h1.node-title"]
+        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1"]
       },
       {
         "name": "Trouw",
@@ -492,7 +492,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["latimes.com"],
-        "title_query": ["h1.spaced"]
+        "title_query": ["h1.spaced", ".headline"]
       },
       {
         "name": "USA Today",
@@ -511,7 +511,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["usatoday.com"],
-        "title_query": ["h1.title"]
+        "title_query": ["h1.title", "h1.display-2"]
       },
       {
         "name": "The Wall Street Journal",
@@ -570,7 +570,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["vice.com"],
-        "title_query": ["h1.heading", ".article__header h1"]
+        "title_query": ["h1.heading", ".article__header h1", ".smart-header > h1"]
       },
       {
         "name": "VICENews",
