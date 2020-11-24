@@ -599,7 +599,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["huffingtonpost.com"],
-        "title_query": ["h1.headline__title"]
+        "title_query": ["h1.headline__title", "h1.headline"]
       },
       {
         "name": "TMZ",
