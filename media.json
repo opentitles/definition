@@ -107,7 +107,7 @@
         "suffix": "",
         "feeds": ["rss"],
         "id_container": "guid",
-        "id_mask": "([0-9]){7-9}",
+        "id_mask": "([0-9]){7,9}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
@@ -179,7 +179,7 @@
           "sport"
         ],
         "id_container": "link",
-        "id_mask": "~([a-z0-9]){8}",
+        "id_mask": "~([a-z0-9]){7,8}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
