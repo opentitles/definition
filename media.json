@@ -581,7 +581,7 @@
           "en_ca"
         ],
         "id_container": "link",
-        "id_mask": "(\b[a-z_]{2,5})\/(article)\/([a-z0-9]{6}\b)",
+        "id_mask": "(\\b[a-z_]{2,5})\\/(article)\\/([a-z0-9]{6}\\b)",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["news.vice.com"],
@@ -595,7 +595,7 @@
           "front-page"
         ],
         "id_container": "guid",
-        "id_mask": "([a-z]{2})_([0-9a-z]{24})",
+        "id_mask": "([0-9a-z]{24})",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["huffingtonpost.com"],
