@@ -107,7 +107,7 @@
         "suffix": "",
         "feeds": ["rss"],
         "id_container": "guid",
-        "id_mask": "([0-9]){7}",
+        "id_mask": "([0-9]){7,9}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
@@ -179,7 +179,7 @@
           "sport"
         ],
         "id_container": "link",
-        "id_mask": "~([a-z0-9]){8}",
+        "id_mask": "~([a-z0-9]){7,8}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
@@ -203,7 +203,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["rtlnieuws.nl", "bright.nl"],
-        "title_query": ["div.article-title-width > h1.node-title"]
+        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1"]
       },
       {
         "name": "Trouw",
@@ -234,7 +234,7 @@
           "trending"
         ],
         "id_container": "guid",
-        "id_mask": "([0-9]){7}",
+        "id_mask": "~([a-z0-9]){7,8}",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["parool.nl"],
@@ -492,7 +492,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["latimes.com"],
-        "title_query": ["h1.spaced"]
+        "title_query": ["h1.spaced", ".headline"]
       },
       {
         "name": "USA Today",
@@ -511,7 +511,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["usatoday.com"],
-        "title_query": ["h1.title"]
+        "title_query": ["h1.title", "h1.display-2"]
       },
       {
         "name": "The Wall Street Journal",
@@ -570,7 +570,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["vice.com"],
-        "title_query": ["h1.heading", ".article__header h1"]
+        "title_query": ["h1.heading", ".article__header h1", ".smart-header > h1"]
       },
       {
         "name": "VICENews",
@@ -581,7 +581,7 @@
           "en_ca"
         ],
         "id_container": "link",
-        "id_mask": "(\b[a-z_]{2,5})\/(article)\/([a-z0-9]{6}\b)",
+        "id_mask": "(\\b[a-z_]{2,5})\\/(article)\\/([a-z0-9]{6}\\b)",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["news.vice.com"],
@@ -595,11 +595,11 @@
           "front-page"
         ],
         "id_container": "guid",
-        "id_mask": "([a-z]{2})_([0-9a-z]{24})",
+        "id_mask": "([0-9a-z]{24})",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["huffingtonpost.com"],
-        "title_query": ["h1.headline__title"]
+        "title_query": ["h1.headline__title", "h1.headline"]
       },
       {
         "name": "TMZ",
