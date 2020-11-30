@@ -23,12 +23,12 @@
   },
   "devDependencies": {
     "@types/async": "3.2.4",
-    "@types/node": "13.13.32",
+    "@types/node": "13.13.33",
     "@types/node-fetch": "2.5.7",
     "@types/puppeteer": "5.4.0",
     "@types/xml2js": "0.4.7",
-    "@typescript-eslint/eslint-plugin": "4.8.1",
-    "@typescript-eslint/parser": "4.8.1",
+    "@typescript-eslint/eslint-plugin": "4.8.2",
+    "@typescript-eslint/parser": "4.8.2",
     "eslint": "7.14.0"
   }
 }
