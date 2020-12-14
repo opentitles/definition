@@ -13,7 +13,7 @@
     "@actions/core": "1.2.6",
     "@actions/github": "4.0.0",
     "@actions/http-client": "1.0.9",
-    "@fdebijl/clog": "1.64.0",
+    "@fdebijl/clog": "1.65.0",
     "@octokit/rest": "18.0.12",
     "async": "3.2.0",
     "moment": "2.29.1",
