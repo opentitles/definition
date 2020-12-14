@@ -19,7 +19,7 @@
     "moment": "2.29.1",
     "node-fetch": "2.6.1",
     "puppeteer": "5.5.0",
-    "rss-parser": "3.9.0"
+    "rss-parser": "3.10.0"
   },
   "devDependencies": {
     "@types/async": "3.2.5",
