@@ -8,4 +8,5 @@ export interface ExtendedItem extends ConfirmedItem {
   lang: string;
   link: string;
   guid: string;
+  'wp:arc_uuid': string;
 }

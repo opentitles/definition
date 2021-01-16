@@ -1,7 +1,8 @@
 import { Output } from 'rss-parser';
 import { ExtendedItem } from './ExtendedItem';
+import { ParserItemType } from './ParserItemType';
 
-export interface ExtendedOutput extends Output {
+export interface ExtendedOutput extends Output<ParserItemType> {
   [key: string]: any;
   image?: {
     link?: string;
