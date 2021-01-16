@@ -183,7 +183,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
-        "title_query": [".artstyle__header-title", "nav > h1.title", "h1.artstyle__header-title", ".h1-headline"]
+        "title_query": [".artstyle__header-title", "h1.title", "h1.artstyle__header-title", ".h1-headline"]
       },
       {
         "name": "RTL",
@@ -393,7 +393,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["us.cnn.com"],
-        "title_query": [".l-container > h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
+        "title_query": ["h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
       },
       {
         "name": "CNN",
@@ -478,7 +478,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nytimes.com"],
-        "title_query": ["h1[itemprop=\"headline\"]"]
+        "title_query": ["h1[itemprop=\"headline\"]", "header h1"]
       },
       {
         "name": "Los Angeles Times",
@@ -511,7 +511,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["usatoday.com"],
-        "title_query": ["h1.title", "h1.display-2"]
+        "title_query": ["h1"]
       },
       {
         "name": "The Wall Street Journal",
@@ -528,7 +528,7 @@
         "page_id_location": "var",
         "page_id_query": "INITIAL_PROPS_HEADER.context.articleId",
         "match_domains": ["wsj.com"],
-        "title_query": ["h1.wsj-article-headline"]
+        "title_query": ["h1.wsj-article-headline", "h1[itemprop=\"headline\"]"]
       },
       {
         "name": "VICE",
@@ -604,7 +604,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["huffingtonpost.com"],
-        "title_query": ["h1.headline__title"]
+        "title_query": ["h1.article__headline-title"]
       },
       {
         "name": "Newsweek",
@@ -651,7 +651,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["theguardian.com"],
-        "title_query": ["h1[itemprop=\"headline\"]"]
+        "title_query": ["h1[itemprop=\"headline\"]", "h1 > span"]
       }
     ]
   }
