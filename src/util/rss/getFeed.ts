@@ -1,6 +1,9 @@
 import Parser, { Item } from 'rss-parser';
 import { HostError } from '../../domain';
-const parser = new Parser({
+import { ParserFeedType } from '../../domain/ParserFeedType';
+import { ParserItemType } from '../../domain/ParserItemType';
+
+const parser = new Parser<ParserFeedType, ParserItemType>({
   headers: {'User-Agent': 'OpenTitles Scraper by floris@debijl.xyz'},
   timeout: 5000,
   maxRedirects: 3,
