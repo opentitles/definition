@@ -14,7 +14,7 @@
     "@actions/github": "4.0.0",
     "@actions/http-client": "1.0.9",
     "@fdebijl/clog": "1.78.0",
-    "@octokit/rest": "18.3.4",
+    "@octokit/rest": "18.3.5",
     "async": "3.2.0",
     "moment": "2.29.1",
     "node-fetch": "2.6.1",
