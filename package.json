@@ -27,8 +27,8 @@
     "@types/node-fetch": "2.5.10",
     "@types/puppeteer": "5.4.3",
     "@types/xml2js": "0.4.8",
-    "@typescript-eslint/eslint-plugin": "4.26.1",
-    "@typescript-eslint/parser": "4.26.1",
-    "eslint": "7.28.0"
+    "@typescript-eslint/eslint-plugin": "4.27.0",
+    "@typescript-eslint/parser": "4.27.0",
+    "eslint": "7.29.0"
   }
 }
