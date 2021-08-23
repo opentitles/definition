@@ -10,7 +10,7 @@
   "author": "Floris de Bijl",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.4.0",
+    "@actions/core": "1.5.0",
     "@actions/github": "5.0.0",
     "@actions/http-client": "1.0.11",
     "@fdebijl/clog": "1.101.0",
