@@ -22,7 +22,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
   const titleErrors: TitleError[] = [];
   const idErrors: IdError[] = [];
 
-  const checkMedium = async (limit: number, i: number = 0) => {
+  const checkMedium = async (limit: number, i = 0) => {
     if (i < limit) {
       const medium = mediaList[i];
 
@@ -34,7 +34,7 @@ getFlatMediaDefinition().then(async (mediaList) => {
         }
       }
 
-      const checkFeed = async (innerLimit: number, j: number = 0) => {
+      const checkFeed = async (innerLimit: number, j = 0) => {
         if (j < innerLimit) {
           const feedname = medium.feeds[j];
           clog.log(`CHCK ${medium.name}:${feedname}`);

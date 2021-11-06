@@ -1,5 +1,5 @@
 
-import core from '@actions/core';
+import * as core from '@actions/core';
 import github from '@actions/github';
 import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
 import { Pull } from '../../domain/Pull';
