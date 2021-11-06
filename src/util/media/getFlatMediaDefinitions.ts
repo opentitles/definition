@@ -1,5 +1,4 @@
 import { readJSON } from "../files/readJSON";
-import { Item } from "rss-parser";
 import { flattenMediaList } from "./flattenMediaList";
 
 export const getFlatMediaDefinition = async (): Promise<MediumDefinition[]> => {

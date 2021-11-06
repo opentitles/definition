@@ -15,7 +15,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   });
   const page = await browser.newPage();
   await page.setUserAgent('GoogleBot');
-  
+
   const link: string | undefined = article.link || article.guid || undefined;
 
   // Verify host can be reached
@@ -34,7 +34,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
     const response = await page.goto(link);
     const statusCode = await response?.status();
-  
+
     if (statusCode) {
       if (statusCode >= 400) {
         await browser.close();

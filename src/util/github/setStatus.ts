@@ -1,9 +1,9 @@
 // Adapted from https://github.com/mitchheddles/github-action-status-check
 
-const cp = require('child_process');
-const fetch = require('node-fetch');
+import cp from 'child_process';
+import fetch, { Response } from 'node-fetch';
 
-export async function setStatus(context: string, state: 'success' | 'failure' | 'pending', description: string) {
+export async function setStatus(context: string, state: 'success' | 'failure' | 'pending', description: string): Promise<Response> {
   const [owner, repo] = (process.env.GITHUB_REPOSITORY as string).split('/');
 
   function getCurrentCommitSha() {
@@ -12,7 +12,7 @@ export async function setStatus(context: string, state: 'success' | 'failure' | 
       .toString()
       .trim();
   }
-  
+
   // The SHA provied by GITHUB_SHA is the merge (PR) commit.
   // We need to get the current commit sha ourself.
   const sha = getCurrentCommitSha();
