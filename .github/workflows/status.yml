@@ -22,7 +22,7 @@ jobs:
         npm ci
         npm run compile
     - name: Run status checks
-      run: node dist/validator.js NOS
+      run: node dist/validator.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   lint:
