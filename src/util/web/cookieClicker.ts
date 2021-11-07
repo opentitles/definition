@@ -71,7 +71,7 @@ const clickButtonAndRetryOnFail = async (
   {selector, expectsNavigation, page, medium, retryCount = 0}:
   {selector: string, expectsNavigation: boolean, page: puppeteer.Page, medium: MediumDefinition, retryCount?: number}
 ): Promise<void> => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     try {
       if (await page.waitForSelector(selector, { timeout: 2000 }) !== null) {
         if (expectsNavigation) {
@@ -84,7 +84,7 @@ const clickButtonAndRetryOnFail = async (
 
       resolve();
     } catch(error) {
-      if (error.name === 'TimeoutError' && retryCount <= 3) {
+      if ((error as Error).name === 'TimeoutError' && retryCount <= 3) {
         // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here (up to three times before failing this medium).
         retryCount++;
         resolve(clickButtonAndRetryOnFail({

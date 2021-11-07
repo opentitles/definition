@@ -1,15 +1,17 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const { HttpClient, Headers: GithubHeaders } = require("@actions/http-client");
+
+import * as core from '@actions/core';
+import * as github from '@actions/github';
+import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
+import { Pull } from '../../domain/Pull';
 
 const previewHeader = "application/vnd.github.groot-preview+json";
 
-const getPulls = async (repoToken: string, repo: string, commitSha: string) => {
+const getPulls = async (repoToken: string, repo: string, commitSha: string): Promise<Pull[]> => {
   const http = new HttpClient("http-client-add-pr-comment");
 
   const additionalHeaders = {
     [GithubHeaders.Accept]: previewHeader,
-    [GithubHeaders.Authorization]: `token ${repoToken}`,
+    ['Authorization']: `token ${repoToken}`,
   };
 
   const body = await http.getJson(
@@ -17,10 +19,10 @@ const getPulls = async (repoToken: string, repo: string, commitSha: string) => {
     additionalHeaders
   );
 
-  return body.result;
+  return body.result as Pull[];
 };
 
-export async function addComment(message: string) {
+export async function addComment(message: string): Promise<void> {
   try {
     const repoToken = process.env.GITHUB_TOKEN as string;
     const allowRepeats = Boolean(core.getInput("allow-repeats") === "true");
@@ -33,7 +35,7 @@ export async function addComment(message: string) {
       sha: commitSha,
     } = github.context;
 
-    const { full_name: repoFullName } = repository;
+    const repoFullName = repository?.full_name as string;
 
     let issueNumber;
 
@@ -60,7 +62,7 @@ export async function addComment(message: string) {
     if (allowRepeats === false) {
       core.debug("repeat comments are disallowed, checking for existing");
 
-      const { data: comments } = await octokit.issues.listComments({
+      const { data: comments } = await octokit.rest.issues.listComments({
         owner,
         repo,
         issue_number: issueNumber,
@@ -77,7 +79,7 @@ export async function addComment(message: string) {
       }
     }
 
-    await octokit.issues.createComment({
+    await octokit.rest.issues.createComment({
       owner,
       repo,
       issue_number: issueNumber,
@@ -87,7 +89,7 @@ export async function addComment(message: string) {
     core.setOutput("comment-created", "true");
     return;
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed((error as Error).message);
     return;
   }
 }

@@ -5,7 +5,7 @@ import { addComment } from "./addComment";
 
 const clog = new Clog()
 
-export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[], minutes: number, seconds: number) => {
+export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[], minutes: number, seconds: number): Promise<void> => {
   if (!process.env.GITHUB_REPOSITORY) {
     clog.log('Not commenting since we\'re not running as an action', LOGLEVEL.INFO);
     return;
