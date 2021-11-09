@@ -11,7 +11,15 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
 
   // TODO: Add catch for problems with launching puppeteer
   const browser = await puppeteer.launch({
-    args: ['--disable-dev-shm-usage']
+    args: [
+      '--disable-dev-shm-usage',
+      '--no-default-browser-check',
+      '--ignore-certificate-errors',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process,Translate',
+    ],
+    headless: false
   });
   const page = await browser.newPage();
   await page.setUserAgent('GoogleBot');
