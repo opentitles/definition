@@ -25,17 +25,3 @@ jobs:
       run: node dist/validator.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Lint Code Base
-        uses: docker://github/super-linter:v4.8.1@sha256:8809fc2458c03f98d8a2987e33124c7dbde28a694539d93473968c1a0cdab637
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_JSON: false
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_MD: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

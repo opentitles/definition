@@ -1,10 +1,9 @@
-import { retry } from 'async';
 import puppeteer from 'puppeteer';
-
+import { CONFIG } from '../../config';
 
 /**
  * Accept the cookies for any sites that use a cookiewall
- * 
+ *
  * @param page Current page in puppeteer
  * @param medium Current medium being processed
  */
@@ -15,24 +14,25 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
     }
 
     switch (medium.name) {
-      // case 'Parool':
-      // case 'Trouw':
-      // case 'Volkskrant':
-      // case 'AD': {
-      //   // De Persgroep
-      //   resolve(clickButtonAndRetryOnFail({
-      //     selector: 'button.pg-accept-button',
-      //     expectsNavigation: true, 
-      //     page,
-      //     medium
-      //   }));
-      //   break;
-      // }
+      case 'NUnl':
+      case 'Parool':
+      case 'Trouw':
+      case 'Volkskrant':
+      case 'AD': {
+        // De Persgroep
+        resolve(clickButtonAndRetryOnFail({
+          selector: 'button.pg-accept-button',
+          expectsNavigation: true,
+          page,
+          medium
+        }));
+        break;
+      }
       case 'HVNL': {
         // Talpa
         resolve(clickButtonAndRetryOnFail({
           selector: 'div.card-body.paragraph-default-black > button.component-button--primary',
-          expectsNavigation: true, 
+          expectsNavigation: true,
           page,
           medium
         }));
@@ -43,7 +43,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         // NDC Mediagroep
         resolve(clickButtonAndRetryOnFail({
           selector: '#simple-view form > div.buttons > input',
-          expectsNavigation: true, 
+          expectsNavigation: true,
           page,
           medium
         }));
@@ -53,7 +53,7 @@ export const cookieClicker = async (page: puppeteer.Page, medium: MediumDefiniti
         // NDC Mediagroep
         resolve(clickButtonAndRetryOnFail({
           selector: 'button#onetrust-accept-btn-handler',
-          expectsNavigation: false, 
+          expectsNavigation: false,
           page,
           medium
         }));
@@ -73,30 +73,62 @@ const clickButtonAndRetryOnFail = async (
 ): Promise<void> => {
   return new Promise(async (resolve) => {
     try {
-      if (await page.waitForSelector(selector, { timeout: 2000 }) !== null) {
+      const button = await findInFrames(page, selector);
+      if (button) {
         if (expectsNavigation) {
-          page.click(selector),
+          button.click();
           await page.waitForNavigation({waitUntil: 'domcontentloaded'})
         } else {
-          await page.click(selector);
+          await button.click();
         }
       }
 
       resolve();
     } catch(error) {
-      if ((error as Error).name === 'TimeoutError' && retryCount <= 3) {
+      if (retryCount <= 3) {
         // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here (up to three times before failing this medium).
         retryCount++;
-        resolve(clickButtonAndRetryOnFail({
-          selector,
-          expectsNavigation,
-          page,
-          medium,
-          retryCount
-        }));
+        setTimeout(() => {
+          resolve(clickButtonAndRetryOnFail({
+            selector,
+            expectsNavigation,
+            page,
+            medium,
+            retryCount
+          }));
+        }, CONFIG.TIMEOUT.COOKIECLICKER_RETRY)
       } else {
         resolve();
       }
     }
   });
+}
+
+async function recursiveFindInFrames(inputFrame: puppeteer.Frame, selector: string): Promise<puppeteer.ElementHandle> {
+  const frames = inputFrame.childFrames();
+  const results = await Promise.all(
+    frames.map(async frame => {
+      try {
+        const el = await frame.$(selector)
+        if (el) return el as puppeteer.ElementHandle<Element>
+      } catch (e) {
+      }
+
+      if (frame.childFrames().length > 0) {
+        return await recursiveFindInFrames(frame, selector);
+      }
+      return null;
+    })
+  );
+  return results.find(Boolean) as puppeteer.ElementHandle;
+}
+
+async function findInFrames(page: puppeteer.Page, selector: string): Promise<puppeteer.ElementHandle> {
+  const result = await recursiveFindInFrames(page.mainFrame(), selector);
+  if (!result) {
+    throw new Error(
+      `The selector \`${selector}\` could not be found in any child frames.`
+    );
+  }
+  return result;
 }
