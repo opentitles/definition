@@ -18,9 +18,12 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       '--disable-setuid-sandbox',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process,Translate',
-    ]
+    ],
+    headless: true
   });
   const page = await browser.newPage();
+  await page.setCacheEnabled(true);
+  await page.setViewport({ width: 1920, height: 1010 })
   await page.setUserAgent('GoogleBot');
 
   const link: string | undefined = article.link || article.guid || undefined;

@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import { CONFIG } from '../../config';
 
 /**
  * Accept the cookies for any sites that use a cookiewall
@@ -87,13 +88,15 @@ const clickButtonAndRetryOnFail = async (
       if (retryCount <= 3) {
         // Clicking the consent button didn't initiate navigation for whatever reason, so we're retrying here (up to three times before failing this medium).
         retryCount++;
-        resolve(clickButtonAndRetryOnFail({
-          selector,
-          expectsNavigation,
-          page,
-          medium,
-          retryCount
-        }));
+        setTimeout(() => {
+          resolve(clickButtonAndRetryOnFail({
+            selector,
+            expectsNavigation,
+            page,
+            medium,
+            retryCount
+          }));
+        }, CONFIG.TIMEOUT.COOKIECLICKER_RETRY)
       } else {
         resolve();
       }
