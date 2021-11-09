@@ -18,8 +18,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       '--disable-setuid-sandbox',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process,Translate',
-    ],
-    headless: false
+    ]
   });
   const page = await browser.newPage();
   await page.setUserAgent('GoogleBot');
