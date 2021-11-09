@@ -35,6 +35,7 @@ jobs:
         uses: docker://github/super-linter:v2.2.2@sha256:440bc28f423a1c497b2ef72a18b180d92708c0943355e53189cc98605d808bf8
         env:
           VALIDATE_ALL_CODEBASE: true
-          VALIDATE_JSON: true
+          VALIDATE_JSON: false
           VALIDATE_TYPESCRIPT_ES: true
           VALIDATE_MD: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
