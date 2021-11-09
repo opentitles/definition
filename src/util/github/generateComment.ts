@@ -54,7 +54,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     comment += `\n`;
   }
 
-  comment += 'Please address these issues by updating the definition and ammending this PR with your updates.';
+  comment += 'Please address these issues by updating the definition and amending this PR with your updates.';
   addComment(comment);
   clog.log('Commenting fixlist.', LOGLEVEL.DEBUG);
   return;
