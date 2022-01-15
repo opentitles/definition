@@ -372,7 +372,7 @@
         "page_id_location": "var",
         "page_id_query": "CBSNEWS.tracking.articleId",
         "match_domains": ["cbsnews.com"],
-        "title_query": [".player__bottom-bar h1.now-playing__hed", "h1.content__title"]
+        "title_query": [".player__bottom-bar h1.now-playing__hed", "h1.content__title", "header > h1"]
       },
       {
         "name": "CNNUS",
@@ -393,7 +393,13 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["us.cnn.com"],
-        "title_query": ["h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
+        "title_query": [
+          "h1.pg-headline",
+          "h1.Article__title",
+          "h1.PageHead__title",
+          "h1.ArticlePage-headline",
+          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"
+        ]
       },
       {
         "name": "CNN",
@@ -427,7 +433,14 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["cnn.com", "edition.cnn.com"],
-        "title_query": [".l-container > h1.pg-headline", "h1.Article__title", "h1.PageHead__title", ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"]
+        "title_query": [
+          ".l-container > h1.pg-headline",
+          "h1.Article__title", 
+          "h1.PageHead__title", 
+          "h1.article-title",
+          "h1.pg-headline",
+          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"
+        ]
       },
       {
         "name": "MSNBC",
@@ -441,7 +454,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["msnbc.com"],
-        "title_query": ["div[class^=\"titleAndShare_\"] > h1[class^=\"title_\"]"]
+        "title_query": [
+          "div[class^=\"titleAndShare_\"] > h1[class^=\"title_\"]",
+          "h1[data-test=\"article-hero__headline\"]"
+        ]
       },
       {
         "name": "The New York Times",
@@ -478,7 +494,11 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nytimes.com"],
-        "title_query": ["h1[itemprop=\"headline\"]", "header h1"]
+        "title_query": [
+          "h1[itemprop=\"headline\"]",
+          "header h1",
+          "h1[data-testid=\"headline\"]"
+        ]
       },
       {
         "name": "Los Angeles Times",
@@ -618,7 +638,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["newsweek.com"],
-        "title_query": ["h1[itemprop=\"headline\"]"]
+        "title_query": ["h1[itemprop=\"headline\"]", "h1.title"]
       },
       {
         "name": "Time",
@@ -651,7 +671,11 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["theguardian.com"],
-        "title_query": ["h1[itemprop=\"headline\"]", "h1 > span"]
+        "title_query": [
+          "h1[itemprop=\"headline\"]", 
+          "h1 > span", 
+          "div[data-gu-name=\"headline\"] h1"
+        ]
       }
     ]
   }
