@@ -13,12 +13,12 @@
     "@actions/core": "1.6.0",
     "@actions/github": "5.0.0",
     "@actions/http-client": "1.0.11",
-    "@fdebijl/clog": "1.105.0",
+    "@fdebijl/clog": "1.110.0",
     "@octokit/rest": "18.12.0",
     "async": "3.2.3",
     "moment": "2.29.1",
     "node-fetch": "2.6.7",
-    "puppeteer": "13.1.1",
+    "puppeteer": "13.1.3",
     "rss-parser": "3.12.0"
   },
   "devDependencies": {
