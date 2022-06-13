@@ -15,7 +15,7 @@
     "@actions/http-client": "1.0.11",
     "@fdebijl/clog": "1.128.0",
     "@octokit/rest": "18.12.0",
-    "async": "3.2.3",
+    "async": "3.2.4",
     "moment": "2.29.3",
     "node-fetch": "2.6.7",
     "puppeteer": "13.7.0",
