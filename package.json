@@ -11,9 +11,9 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "1.9.1",
-    "@actions/github": "5.0.3",
+    "@actions/github": "5.1.0",
     "@actions/http-client": "1.0.11",
-    "@fdebijl/clog": "1.142.0",
+    "@fdebijl/clog": "1.143.0",
     "@octokit/rest": "18.12.0",
     "async": "3.2.4",
     "moment": "2.29.4",
