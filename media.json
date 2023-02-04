@@ -136,7 +136,12 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nu.nl"],
-        "title_query": [".headerimage .title.fluid", ".block-content > .caption > h1", "h1.image-header-block__title"]
+        "title_query": [
+          ".headerimage .title.fluid",
+          ".block-content > .caption > h1",
+          "h1.image-header-block__title",
+          "h1.video-meta__title"
+        ]
       },
       {
         "name": "Tweakers",
