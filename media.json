@@ -13,7 +13,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nos.nl", "jeugdjournaal.nl"],
-        "title_query": ["h1[class*=title]"]
+        "title_query": ["h1[class*=title]", "main h1"]
       },
       {
         "name": "AD",
@@ -136,7 +136,12 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nu.nl"],
-        "title_query": [".headerimage .title.fluid", ".block-content > .caption > h1"]
+        "title_query": [
+          ".headerimage .title.fluid",
+          ".block-content > .caption > h1",
+          "h1.image-header-block__title",
+          "h1.video-meta__title"
+        ]
       },
       {
         "name": "Tweakers",
@@ -179,7 +184,7 @@
           "sport"
         ],
         "id_container": "link",
-        "id_mask": "~([a-z0-9]){7,8}",
+        "id_mask": "(~([a-z0-9]){7,8})|([0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12})",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
@@ -203,7 +208,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["rtlnieuws.nl", "bright.nl"],
-        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1"]
+        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1", "h1.article__title"]
       },
       {
         "name": "Trouw",
@@ -398,7 +403,8 @@
           "h1.Article__title",
           "h1.PageHead__title",
           "h1.ArticlePage-headline",
-          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"
+          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline",
+          "h1.headline__text"
         ]
       },
       {
@@ -439,7 +445,8 @@
           "h1.PageHead__title", 
           "h1.article-title",
           "h1.pg-headline",
-          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline"
+          ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline",
+          "h1.headline__text"
         ]
       },
       {
@@ -450,7 +457,7 @@
           "latest"
         ],
         "id_container": "link",
-        "id_mask": "([0-9]{13})",
+        "id_mask": "([0-9]{12,13})",
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["msnbc.com"],
@@ -544,7 +551,7 @@
           "RSSLifestyle"
         ],
         "id_container": "guid",
-        "id_mask": "(SB)([0-9]{41})",
+        "id_mask": "((SB)([0-9]{41}))|(WP-WSJ-[0-9]{8,12})",
         "page_id_location": "var",
         "page_id_query": "INITIAL_PROPS_HEADER.context.articleId",
         "match_domains": ["wsj.com"],
@@ -596,7 +603,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["news.vice.com"],
-        "title_query": ["h2.headline > span"]
+        "title_query": ["h2.headline > span", "h1"]
       },
       {
         "name": "Huffpost",
