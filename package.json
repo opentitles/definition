@@ -18,7 +18,7 @@
     "async": "3.2.4",
     "moment": "2.29.4",
     "node-fetch": "2.6.12",
-    "puppeteer": "13.7.0",
+    "puppeteer": "20.9.0",
     "rss-parser": "3.13.0"
   },
   "devDependencies": {
