@@ -14,7 +14,7 @@ jobs:
         # Checkout the head ref instead of the PR branch that github creates.
         ref: ${{ github.head_ref }}
     - name: Setup Node.js v14
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 14
     - name: Install and build
