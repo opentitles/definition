@@ -1,31 +1,24 @@
 import { Item } from 'rss-parser';
-import puppeteer from 'puppeteer';
+import pextra from 'puppeteer-extra';
+import { milliseconds } from '@fdebijl/pog';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+
 import { TitleError, IdError, HostError } from '../../domain';
 import { cookieClicker } from '../web/cookieClicker';
 import { findTitleElement } from './findTitleElement';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
-    return Promise.resolve({});
+    return {};
   }
 
   // TODO: Add catch for problems with launching puppeteer
-  const browser = await puppeteer.launch({
-    args: [
-      '--disable-dev-shm-usage',
-      '--no-default-browser-check',
-      '--ignore-certificate-errors',
-      '--disable-setuid-sandbox',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process,Translate',
-    ],
-    headless: true
+  pextra.use(StealthPlugin());
+  const browser = await pextra.launch({
+    headless: true,
+    ignoreHTTPSErrors: true
   });
   const page = await browser.newPage();
-  await page.setCacheEnabled(true);
-  await page.setViewport({ width: 1920, height: 1010 })
-  await page.setUserAgent('GoogleBot');
-
   const link: string | undefined = article.link || article.guid || undefined;
 
   // Verify host can be reached
@@ -42,8 +35,25 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       }
     }
 
+    page.setCookie({
+      // Cookiebot consent
+      name: 'cookieconsent_status',
+      value: 'dismiss',
+      domain: new URL(link as string).hostname,
+      path: '/'
+    },
+    {
+      // DPG allows bot to bypass the cookie wall
+      name: 'isBot',
+      value: 'true',
+      domain: new URL(link as string).hostname,
+      path: '/',
+      httpOnly: false,
+      secure: false
+    });
+
     const response = await page.goto(link);
-    const statusCode = await response?.status();
+    const statusCode = response?.status();
 
     if (statusCode) {
       if (statusCode >= 400) {
@@ -77,15 +87,15 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   let idError: IdError | undefined  = undefined;
 
   // Verify page has accessible ID
-  const url = await page.url();
+  const url = page.url();
 
   switch (medium.page_id_location) {
-    case ('var'): {
+    case 'var': {
       try {
-        const id = await page.evaluate((medium: MediumDefinition) => {
+        const id = await page.evaluate((injectedMedium: MediumDefinition) => {
           return new Promise((resolve) => {
             let out: any = window;
-            const locations = medium.page_id_query.split('.');
+            const locations = injectedMedium.page_id_query.split('.');
             locations.forEach(location => {
               out = out[location];
             });
@@ -111,8 +121,8 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         }
       }
       break;
-    };
-    case ('url'): {
+    }
+    case 'url': {
       if (!url.match(medium.id_mask)) {
         idError = {
           message: `No match for ID in <${url}> using mask [${medium.id_mask}]`,
@@ -122,6 +132,73 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         }
       }
       break;
+    }
+    case 'element_textcontent': {
+      const idElement = await page.$(medium.page_id_query);
+
+      if (!idElement) {
+        idError = {
+          message: `No element for ID on <${url}> using selector [${medium.page_id_query}]`,
+          article,
+          medium,
+          feedname
+        }
+      } else {
+        const text = await page.evaluate(injectedIdElement => injectedIdElement.textContent, idElement);
+
+        if (!text) {
+          idError = {
+            message: `No text content for ID element on <${url}> using selector [${medium.page_id_query}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+
+        if (!text?.match(medium.id_mask)) {
+          idError = {
+            message: `No match for ID in <${url}> using mask [${medium.id_mask}] on string [${text}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+      }
+
+      break;
+    }
+    case 'element_href': {
+      const idElement = await page.$(medium.page_id_query);
+
+      if (!idElement) {
+        idError = {
+          message: `No element for ID on <${url}> using selector [${medium.page_id_query}]`,
+          article,
+          medium,
+          feedname
+        }
+      } else {
+        const href = await page.evaluate(injectedIdElement => injectedIdElement.getAttribute('href'), idElement);
+
+        if (!href) {
+          idError = {
+            message: `No href attribute for ID element on <${url}> using selector [${medium.page_id_query}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+      }
+
+      break;
+    }
+    default: {
+      idError = {
+        message: `No valid ID location specified for <${url}>`,
+        article,
+        medium,
+        feedname
+      }
     }
   }
 
@@ -149,7 +226,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
-  await page.waitForTimeout(500);
+  await milliseconds(500);
   await browser.close();
 
   return {

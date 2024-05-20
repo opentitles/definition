@@ -1,7 +1,7 @@
 import { Clog, LOGLEVEL } from '@fdebijl/clog';
 
-import { HostError, TitleError, IdError } from "../../domain";
-import { addComment } from "./addComment";
+import { HostError, TitleError, IdError } from '../../domain';
+import { addComment } from './addComment';
 
 const clog = new Clog()
 
@@ -35,7 +35,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     hostErrors.forEach(hostError => {
       comment += `- [ ] ${hostError.medium.name}:${hostError.feedname} - ${hostError.message}\n`
     });
-    comment += `\n`;
+    comment += '\n';
   }
 
   if (titleErrors && titleErrors.length > 0) {
@@ -43,7 +43,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     titleErrors.forEach(titleError => {
       comment += `- [ ] ${titleError.medium.name}:${titleError.feedname} - ${titleError.message}\n`
     });
-    comment += `\n`;
+    comment += '\n';
   }
 
   if (idErrors && idErrors.length > 0) {
@@ -51,7 +51,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
     idErrors.forEach(idError => {
       comment += `- [ ] ${idError.medium.name}:${idError.feedname} - ${idError.message}\n`
     });
-    comment += `\n`;
+    comment += '\n';
   }
 
   comment += 'Please address these issues by updating the definition and amending this PR with your updates.';

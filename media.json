@@ -111,7 +111,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
-        "title_query": ["h1.ArticleTitleBlock__title"]
+        "title_query": [
+          "h1.ArticleTitleBlock__title",
+          ".Article__titleWrapper h1"
+        ]
       },
       {
         "name": "NUnl",
@@ -188,7 +191,13 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
-        "title_query": [".artstyle__header-title", "h1.title", "h1.artstyle__header-title", ".h1-headline"]
+        "title_query": [
+          ".artstyle__header-title",
+          "h1.title",
+          "h1.artstyle__header-title",
+          ".h1-headline",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "RTL",
@@ -208,7 +217,12 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["rtlnieuws.nl", "bright.nl"],
-        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1", "h1.article__title"]
+        "title_query": [
+          "div.article-title-width > h1.node-title",
+          ".video-content > h1",
+          "h1.article__title",
+          "[data-testid=hero-heading]"
+        ]
       },
       {
         "name": "Trouw",
@@ -220,7 +234,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["trouw.nl"],
-        "title_query": ["h1.artstyle__header-title"]
+        "title_query": [
+          "h1.artstyle__header-title",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "Parool",
@@ -243,7 +260,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["parool.nl"],
-        "title_query": [".artstyle__header-title"]
+        "title_query": [
+          ".artstyle__header-title",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "Limburger",
@@ -259,7 +279,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["limburger.nl"],
-        "title_query": ["div > header.article__header > h1"]
+        "title_query": ["div > header > h1"]
       },
       {
         "name": "FD",
@@ -271,7 +291,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["fd.nl"],
-        "title_query": [".head.full.social-quotable > h1"]
+        "title_query": [
+          ".head.full.social-quotable > h1",
+          "h1.heading"
+        ]
       },
       {
         "name": "HVNL",
@@ -387,7 +410,6 @@
           "cnn_topstories",
           "cnn_world",
           "cnn_us",
-          "cnn_allpolitics",
           "cnn_tech",
           "cnn_health",
           "cnn_showbiz",
@@ -441,12 +463,13 @@
         "match_domains": ["cnn.com", "edition.cnn.com"],
         "title_query": [
           ".l-container > h1.pg-headline",
-          "h1.Article__title", 
-          "h1.PageHead__title", 
+          "h1.Article__title",
+          "h1.PageHead__title",
           "h1.article-title",
           "h1.pg-headline",
           ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline",
-          "h1.headline__text"
+          "h1.headline__text",
+          ".headline > h1"
         ]
       },
       {
@@ -504,7 +527,8 @@
         "title_query": [
           "h1[itemprop=\"headline\"]",
           "header h1",
-          "h1[data-testid=\"headline\"]"
+          "h1[data-testid=\"headline\"]",
+          ".article-headline > h1"
         ]
       },
       {
@@ -659,7 +683,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["time.com"],
-        "title_query": ["h1.headline"]
+        "title_query": [
+          "h1.headline",
+          "main h1"
+        ]
       }
     ],
     "uk": [
@@ -679,10 +706,27 @@
         "page_id_query": "",
         "match_domains": ["theguardian.com"],
         "title_query": [
-          "h1[itemprop=\"headline\"]", 
-          "h1 > span", 
+          "h1[itemprop=\"headline\"]",
+          "h1 > span",
           "div[data-gu-name=\"headline\"] h1"
         ]
+      }
+    ],
+    "be": [
+      {
+        "name": "VRT",
+        "prefix": "https://www.vrt.be/vrtnws/",
+        "suffix": ".rss.articles.xml",
+        "feeds": [
+          "nl",
+          "en"
+        ],
+        "id_container": "id",
+        "id_mask": "p\\.[a-zA-Z0-9]{9}$",
+        "page_id_location": "element_href",
+        "page_id_query": "link[rel=shortlink]",
+        "match_domains": ["vrt.be"],
+        "title_query": [".vrt-title"]
       }
     ]
   }
