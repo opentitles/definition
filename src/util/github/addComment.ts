@@ -1,13 +1,13 @@
 
-import * as core from '@actions/core';
+import { getInput, debug, warning, setOutput, setFailed } from '@actions/core';
 import * as github from '@actions/github';
 import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
 import { Pull } from '../../domain/Pull';
 
-const previewHeader = "application/vnd.github.groot-preview+json";
+const previewHeader = 'application/vnd.github.groot-preview+json';
 
 const getPulls = async (repoToken: string, repo: string, commitSha: string): Promise<Pull[]> => {
-  const http = new HttpClient("http-client-add-pr-comment");
+  const http = new HttpClient('http-client-add-pr-comment');
 
   const additionalHeaders = {
     [GithubHeaders.Accept]: previewHeader,
@@ -25,10 +25,10 @@ const getPulls = async (repoToken: string, repo: string, commitSha: string): Pro
 export async function addComment(message: string): Promise<void> {
   try {
     const repoToken = process.env.GITHUB_TOKEN as string;
-    const allowRepeats = Boolean(core.getInput("allow-repeats") === "true");
+    const allowRepeats = Boolean(getInput('allow-repeats') === 'true');
 
-    core.debug(`input message: ${message}`);
-    core.debug(`input allow-repeats: ${allowRepeats}`);
+    debug(`input message: ${message}`);
+    debug(`input allow-repeats: ${allowRepeats}`);
 
     const {
       payload: { pull_request: pullRequest, repository },
@@ -48,19 +48,19 @@ export async function addComment(message: string): Promise<void> {
     }
 
     if (!issueNumber) {
-      core.warning(
-        "this action only works on pull_request events or other commits associated with a pull"
+      warning(
+        'this action only works on pull_request events or other commits associated with a pull'
       );
-      core.setOutput("comment-created", "false");
+      setOutput('comment-created', 'false');
       return;
     }
 
-    const [owner, repo] = repoFullName.split("/");
+    const [owner, repo] = repoFullName.split('/');
 
     const octokit = github.getOctokit(repoToken);
 
     if (allowRepeats === false) {
-      core.debug("repeat comments are disallowed, checking for existing");
+      debug('repeat comments are disallowed, checking for existing');
 
       const { data: comments } = await octokit.rest.issues.listComments({
         owner,
@@ -69,12 +69,12 @@ export async function addComment(message: string): Promise<void> {
       });
 
       const filteredComments = comments.filter(
-        (c: any) => c.body === message && c.user.login === "github-actions[bot]"
+        (c: any) => c.body === message && c.user.login === 'github-actions[bot]'
       );
 
       if (filteredComments.length) {
-        core.warning("the issue already contains this message");
-        core.setOutput("comment-created", "false");
+        warning('the issue already contains this message');
+        setOutput('comment-created', 'false');
         return;
       }
     }
@@ -86,10 +86,10 @@ export async function addComment(message: string): Promise<void> {
       body: message,
     });
 
-    core.setOutput("comment-created", "true");
+    setOutput('comment-created', 'true');
     return;
   } catch (error) {
-    core.setFailed((error as Error).message);
+    setFailed((error as Error).message);
     return;
   }
 }

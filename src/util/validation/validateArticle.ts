@@ -1,8 +1,9 @@
 import { Item } from 'rss-parser';
-import puppeteer from 'puppeteer';
+import { launch } from 'puppeteer';
 import { TitleError, IdError, HostError } from '../../domain';
 import { cookieClicker } from '../web/cookieClicker';
 import { findTitleElement } from './findTitleElement';
+import { milliseconds } from '@fdebijl/pog';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
@@ -10,7 +11,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // TODO: Add catch for problems with launching puppeteer
-  const browser = await puppeteer.launch({
+  const browser = await launch({
     args: [
       '--disable-dev-shm-usage',
       '--no-default-browser-check',
@@ -82,10 +83,10 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   switch (medium.page_id_location) {
     case ('var'): {
       try {
-        const id = await page.evaluate((medium: MediumDefinition) => {
+        const id = await page.evaluate((injectedMedium: MediumDefinition) => {
           return new Promise((resolve) => {
             let out: any = window;
-            const locations = medium.page_id_query.split('.');
+            const locations = injectedMedium.page_id_query.split('.');
             locations.forEach(location => {
               out = out[location];
             });
@@ -111,7 +112,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         }
       }
       break;
-    };
+    }
     case ('url'): {
       if (!url.match(medium.id_mask)) {
         idError = {
@@ -149,7 +150,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     // }
   }
 
-  await page.waitForTimeout(500);
+  await milliseconds(500);
   await browser.close();
 
   return {

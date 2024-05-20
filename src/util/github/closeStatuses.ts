@@ -1,8 +1,8 @@
-import { HostError, TitleError, IdError } from "../../domain";
-import { setStatus } from "./setStatus";
-import { CONFIG } from "../../config";
+import { HostError, TitleError, IdError } from '../../domain';
+import { setStatus } from './setStatus';
+import { CONFIG } from '../../config';
 
-export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]) => {
+export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]): Promise<void> => {
   if (!process.env.GITHUB_REPOSITORY) {
     return
   }
@@ -16,7 +16,7 @@ export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleE
 
     await setStatus('Host Validation', 'failure', `Failed: ${hostErrors.length} ${hostErrors.length > 1 ? 'hosts' : 'host'} didn't respond.`);
   } else {
-    await setStatus('Host Validation', 'success', `All hosts are online and accessible.`);
+    await setStatus('Host Validation', 'success', 'All hosts are online and accessible.');
   }
 
   if (titleErrors?.length > 0) {
@@ -28,7 +28,7 @@ export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleE
 
     await setStatus('Title Validation', 'failure', `Failed: ${titleErrors.length} ${titleErrors.length > 1 ? 'titles' : 'title'} couldn't be found or ${titleErrors.length > 1 ? 'were' : 'was'} mismatched.`);
   } else {
-    await setStatus('Title Validation', 'success', `All titles are present and matched.`);
+    await setStatus('Title Validation', 'success', 'All titles are present and matched.');
   }
 
   if (idErrors?.length > 0) {
@@ -40,8 +40,6 @@ export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleE
 
     await setStatus('ID Validation', 'failure', `Failed: ${idErrors.length} ${idErrors.length > 1 ? 'IDs' : 'ID'} couldn't be found or ${idErrors.length > 1 ? 'were' : 'was'} mismatched.`);
   } else {
-    await setStatus('ID Validation', 'success', `All pages had their ID's succesfully matched.`);
+    await setStatus('ID Validation', 'success', 'All pages had their ID\'s succesfully matched.');
   }
-
-  return;
 }

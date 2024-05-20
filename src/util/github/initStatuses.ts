@@ -1,4 +1,4 @@
-import { setStatus } from "./setStatus";
+import { setStatus } from './setStatus';
 
 /**
  * Let Github know the checks for this PR have started, if we're running as an action

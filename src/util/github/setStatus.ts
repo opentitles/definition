@@ -1,14 +1,13 @@
 // Adapted from https://github.com/mitchheddles/github-action-status-check
 
-import cp from 'child_process';
-import fetch, { Response } from 'node-fetch';
+import childproc from 'child_process';
 
 export async function setStatus(context: string, state: 'success' | 'failure' | 'pending', description: string): Promise<Response> {
   const [owner, repo] = (process.env.GITHUB_REPOSITORY as string).split('/');
 
   function getCurrentCommitSha() {
-    return cp
-      .execSync(`git rev-parse HEAD`)
+    return childproc
+      .execSync('git rev-parse HEAD')
       .toString()
       .trim();
   }
