@@ -696,8 +696,8 @@
         ],
         "id_container": "id",
         "id_mask": "p\\.[a-zA-Z0-9]{9}$",
-        "page_id_location": "element",
-        "page_id_query": "",
+        "page_id_location": "element_href",
+        "page_id_query": "link[rel=shortlink]",
         "match_domains": ["vrt.be"],
         "title_query": [".vrt-title"]
       }

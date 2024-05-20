@@ -126,7 +126,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       }
       break;
     }
-    case 'element': {
+    case 'element_textcontent': {
       const idElement = await page.$(medium.page_id_query);
 
       if (!idElement) {
@@ -137,8 +137,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
           feedname
         }
       } else {
-        // get text content of element
-        const text = await page.evaluate(idElement => idElement.textContent, idElement);
+        const text = await page.evaluate(injectedIdElement => injectedIdElement.textContent, idElement);
 
         if (!text) {
           idError = {
@@ -152,6 +151,31 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         if (!text?.match(medium.id_mask)) {
           idError = {
             message: `No match for ID in <${url}> using mask [${medium.id_mask}] on string [${text}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+      }
+
+      break;
+    }
+    case 'element_href': {
+      const idElement = await page.$(medium.page_id_query);
+
+      if (!idElement) {
+        idError = {
+          message: `No element for ID on <${url}> using selector [${medium.page_id_query}]`,
+          article,
+          medium,
+          feedname
+        }
+      } else {
+        const href = await page.evaluate(injectedIdElement => injectedIdElement.getAttribute('href'), idElement);
+
+        if (!href) {
+          idError = {
+            message: `No href attribute for ID element on <${url}> using selector [${medium.page_id_query}]`,
             article,
             medium,
             feedname
