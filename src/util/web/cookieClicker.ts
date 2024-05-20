@@ -47,15 +47,6 @@ export const cookieClicker = async (page: Page, medium: MediumDefinition, retryC
         medium
       });
     }
-    case 'CBS': {
-      // NDC Mediagroep
-      return clickButtonAndRetryOnFail({
-        selector: 'button#onetrust-accept-btn-handler',
-        expectsNavigation: false,
-        page,
-        medium
-      });
-    }
   }
 }
 
