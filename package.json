@@ -21,6 +21,8 @@
     "async": "3.2.5",
     "moment": "2.30.1",
     "puppeteer": "22.9.0",
+    "puppeteer-extra": "3.3.6",
+    "puppeteer-extra-plugin-stealth": "2.11.2",
     "rss-parser": "3.13.0"
   },
   "devDependencies": {

@@ -1,9 +1,11 @@
 import { Item } from 'rss-parser';
-import { launch } from 'puppeteer';
+import pextra from 'puppeteer-extra';
+import { milliseconds } from '@fdebijl/pog';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+
 import { TitleError, IdError, HostError } from '../../domain';
 import { cookieClicker } from '../web/cookieClicker';
 import { findTitleElement } from './findTitleElement';
-import { milliseconds } from '@fdebijl/pog';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
@@ -11,24 +13,12 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // TODO: Add catch for problems with launching puppeteer
-  const browser = await launch({
+  pextra.use(StealthPlugin());
+  const browser = await pextra.launch({
     headless: true,
-    ignoreHTTPSErrors: true,
-    args: [
-      '--no-sandbox',
-      '--no-default-browser-check',
-      '--ignore-certificate-errors',
-      '--disable-setuid-sandbox',
-      '--disable-web-security',
-      '--disable-features=IsolateOrigins,site-per-process,Translate',
-      '--disable-component-update',
-      '--metrics-recording-only',
-    ]
+    ignoreHTTPSErrors: true
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 1010 })
-  await page.setUserAgent('GoogleBot');
-
   const link: string | undefined = article.link || article.guid || undefined;
 
   // Verify host can be reached
