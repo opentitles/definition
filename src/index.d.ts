@@ -13,7 +13,7 @@ declare type MediumDefinition = {
   feeds: string[];
   id_container: string;
   id_mask: string;
-  page_id_location: string;
+  page_id_location: 'url' | 'var' | 'element';
   page_id_query: string;
   match_domains: string[];
   title_query: string[];

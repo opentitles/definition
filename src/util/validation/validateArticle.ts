@@ -7,23 +7,25 @@ import { milliseconds } from '@fdebijl/pog';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
-    return Promise.resolve({});
+    return {};
   }
 
   // TODO: Add catch for problems with launching puppeteer
   const browser = await launch({
+    headless: true,
+    ignoreHTTPSErrors: true,
     args: [
-      '--disable-dev-shm-usage',
+      '--no-sandbox',
       '--no-default-browser-check',
       '--ignore-certificate-errors',
       '--disable-setuid-sandbox',
       '--disable-web-security',
       '--disable-features=IsolateOrigins,site-per-process,Translate',
-    ],
-    headless: true
+      '--disable-component-update',
+      '--metrics-recording-only',
+    ]
   });
   const page = await browser.newPage();
-  await page.setCacheEnabled(true);
   await page.setViewport({ width: 1920, height: 1010 })
   await page.setUserAgent('GoogleBot');
 
@@ -44,7 +46,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
     }
 
     const response = await page.goto(link);
-    const statusCode = await response?.status();
+    const statusCode = response?.status();
 
     if (statusCode) {
       if (statusCode >= 400) {
@@ -78,10 +80,10 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   let idError: IdError | undefined  = undefined;
 
   // Verify page has accessible ID
-  const url = await page.url();
+  const url = page.url();
 
   switch (medium.page_id_location) {
-    case ('var'): {
+    case 'var': {
       try {
         const id = await page.evaluate((injectedMedium: MediumDefinition) => {
           return new Promise((resolve) => {
@@ -113,7 +115,7 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       }
       break;
     }
-    case ('url'): {
+    case 'url': {
       if (!url.match(medium.id_mask)) {
         idError = {
           message: `No match for ID in <${url}> using mask [${medium.id_mask}]`,
@@ -123,6 +125,49 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
         }
       }
       break;
+    }
+    case 'element': {
+      const idElement = await page.$(medium.page_id_query);
+
+      if (!idElement) {
+        idError = {
+          message: `No element for ID on <${url}> using selector [${medium.page_id_query}]`,
+          article,
+          medium,
+          feedname
+        }
+      } else {
+        // get text content of element
+        const text = await page.evaluate(idElement => idElement.textContent, idElement);
+
+        if (!text) {
+          idError = {
+            message: `No text content for ID element on <${url}> using selector [${medium.page_id_query}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+
+        if (!text?.match(medium.id_mask)) {
+          idError = {
+            message: `No match for ID in <${url}> using mask [${medium.id_mask}] on string [${text}]`,
+            article,
+            medium,
+            feedname
+          }
+        }
+      }
+
+      break;
+    }
+    default: {
+      idError = {
+        message: `No valid ID location specified for <${url}>`,
+        article,
+        medium,
+        feedname
+      }
     }
   }
 
