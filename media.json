@@ -111,7 +111,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["telegraaf.nl"],
-        "title_query": ["h1.ArticleTitleBlock__title"]
+        "title_query": [
+          "h1.ArticleTitleBlock__title",
+          ".Article__titleWrapper h1"
+        ]
       },
       {
         "name": "NUnl",
@@ -188,7 +191,13 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["volkskrant.nl"],
-        "title_query": [".artstyle__header-title", "h1.title", "h1.artstyle__header-title", ".h1-headline"]
+        "title_query": [
+          ".artstyle__header-title",
+          "h1.title",
+          "h1.artstyle__header-title",
+          ".h1-headline",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "RTL",
@@ -208,7 +217,12 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["rtlnieuws.nl", "bright.nl"],
-        "title_query": ["div.article-title-width > h1.node-title", ".video-content > h1", "h1.article__title"]
+        "title_query": [
+          "div.article-title-width > h1.node-title",
+          ".video-content > h1",
+          "h1.article__title",
+          "[data-testid=hero-heading]"
+        ]
       },
       {
         "name": "Trouw",
@@ -220,7 +234,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["trouw.nl"],
-        "title_query": ["h1.artstyle__header-title"]
+        "title_query": [
+          "h1.artstyle__header-title",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "Parool",
@@ -243,7 +260,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["parool.nl"],
-        "title_query": [".artstyle__header-title"]
+        "title_query": [
+          ".artstyle__header-title",
+          "[data-test-id=article-title]"
+        ]
       },
       {
         "name": "Limburger",
@@ -259,7 +279,7 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["limburger.nl"],
-        "title_query": ["div > header.article__header > h1"]
+        "title_query": ["div > header > h1"]
       },
       {
         "name": "FD",
@@ -271,7 +291,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["fd.nl"],
-        "title_query": [".head.full.social-quotable > h1"]
+        "title_query": [
+          ".head.full.social-quotable > h1",
+          "h1.heading"
+        ]
       },
       {
         "name": "HVNL",

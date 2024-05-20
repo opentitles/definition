@@ -22,7 +22,7 @@ export const cookieClicker = async (page: Page, medium: MediumDefinition, retryC
     case 'AD': {
       // De Persgroep
       return clickButtonAndRetryOnFail({
-        selector: 'button.pg-accept-button',
+        selector: 'button#pg-accept-btn',
         expectsNavigation: true,
         page,
         medium
