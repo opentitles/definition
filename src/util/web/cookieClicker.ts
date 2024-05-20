@@ -16,17 +16,20 @@ export const cookieClicker = async (page: Page, medium: MediumDefinition, retryC
 
   switch (medium.name) {
     case 'NUnl':
-    case 'Parool':
     case 'Trouw':
     case 'Volkskrant':
     case 'AD': {
-      // De Persgroep
+      // DPG
       return clickButtonAndRetryOnFail({
-        selector: 'button#pg-accept-btn',
+        selector: 'button.pg-accept-button',
         expectsNavigation: true,
         page,
         medium
       });
+    }
+    case 'Parool': {
+      await page.reload();
+      break;
     }
     case 'HVNL': {
       // Talpa
@@ -90,11 +93,13 @@ async function recursiveFindInFrames(inputFrame: Frame, selector: string): Promi
         const el = await frame.$(selector)
         if (el) return el as ElementHandle<Element>
       } catch (e) {
+        // console.error(e);
       }
 
       if (frame.childFrames().length > 0) {
         return recursiveFindInFrames(frame, selector);
       }
+
       return null;
     })
   );

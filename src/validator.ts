@@ -11,6 +11,7 @@ import { CONFIG } from './config';
 
 const clog = new Clog(CONFIG.MIN_LOGLEVEL);
 
+// TODO: Rewrite using sequentially from @fdebijl/pog
 getFlatMediaDefinition().then(async (mediaList) => {
   const start = moment();
 

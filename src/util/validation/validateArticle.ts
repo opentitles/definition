@@ -35,6 +35,23 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
       }
     }
 
+    page.setCookie({
+      // Cookiebot consent
+      name: 'cookieconsent_status',
+      value: 'dismiss',
+      domain: new URL(link as string).hostname,
+      path: '/'
+    },
+    {
+      // DPG allows bot to bypass the cookie wall
+      name: 'isBot',
+      value: 'true',
+      domain: new URL(link as string).hostname,
+      path: '/',
+      httpOnly: false,
+      secure: false
+    });
+
     const response = await page.goto(link);
     const statusCode = response?.status();
 
