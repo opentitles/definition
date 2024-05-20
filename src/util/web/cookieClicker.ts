@@ -16,7 +16,6 @@ export const cookieClicker = async (page: Page, medium: MediumDefinition, retryC
 
   switch (medium.name) {
     case 'NUnl':
-    case 'Trouw':
     case 'Volkskrant':
     case 'AD': {
       // DPG
@@ -27,7 +26,9 @@ export const cookieClicker = async (page: Page, medium: MediumDefinition, retryC
         medium
       });
     }
+    case 'Trouw':
     case 'Parool': {
+      // DPG with isBot cookie
       await page.reload();
       break;
     }

@@ -410,7 +410,6 @@
           "cnn_topstories",
           "cnn_world",
           "cnn_us",
-          "cnn_allpolitics",
           "cnn_tech",
           "cnn_health",
           "cnn_showbiz",
@@ -469,7 +468,8 @@
           "h1.article-title",
           "h1.pg-headline",
           ".pg-rail .el__video-collection__meta-wrapper > h1.media__video-headline",
-          "h1.headline__text"
+          "h1.headline__text",
+          ".headline > h1"
         ]
       },
       {
@@ -527,7 +527,8 @@
         "title_query": [
           "h1[itemprop=\"headline\"]",
           "header h1",
-          "h1[data-testid=\"headline\"]"
+          "h1[data-testid=\"headline\"]",
+          ".article-headline > h1"
         ]
       },
       {
@@ -682,7 +683,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["time.com"],
-        "title_query": ["h1.headline"]
+        "title_query": [
+          "h1.headline",
+          "main h1"
+        ]
       }
     ],
     "uk": [
