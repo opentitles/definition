@@ -4,19 +4,22 @@ on:
   pull_request:
     types: [assigned, opened, synchronize, reopened]
 
+env:
+  NODE_VERSION: 20
+
 jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         # Checkout the head ref instead of the PR branch that github creates.
         ref: ${{ github.head_ref }}
-    - name: Setup Node.js v14
-      uses: actions/setup-node@v3
+    - name: Setup Node
+      uses: actions/setup-node@v4
       with:
-        node-version: 14
+        node-version: ${{ env.NODE_VERSION }}
     - name: Install and build
       run: |
         npm ci
