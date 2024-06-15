@@ -168,7 +168,10 @@
         "page_id_location": "url",
         "page_id_query": "",
         "match_domains": ["nrc.nl"],
-        "title_query": ["div.center-block.intro-col.article__header > h1"]
+        "title_query": [
+          "div.center-block.intro-col.article__header > h1",
+          ".dmt-headline__title"
+        ]
       },
       {
         "name": "Volkskrant",
