@@ -16,7 +16,7 @@
     "@actions/github": "6.0.0",
     "@actions/http-client": "2.2.3",
     "@fdebijl/clog": "1.169.0",
-    "@fdebijl/pog": "1.54.0",
+    "@fdebijl/pog": "1.55.0",
     "@octokit/rest": "20.1.1",
     "async": "3.2.6",
     "moment": "2.30.1",
