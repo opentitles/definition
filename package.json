@@ -14,7 +14,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/github": "6.0.1",
-    "@actions/http-client": "2.2.3",
+    "@actions/http-client": "3.0.0",
     "@fdebijl/clog": "1.169.0",
     "@fdebijl/pog": "1.55.0",
     "@octokit/rest": "20.1.2",
