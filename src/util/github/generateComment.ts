@@ -12,7 +12,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
   }
 
   if (!hostErrors && !titleErrors && !idErrors) {
-    addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
+    await addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
     clog.log('Commenting that we passed.', LOGLEVEL.DEBUG);
     return;
   }
@@ -23,7 +23,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
   if (idErrors) errors += idErrors.length;
 
   if (errors === 0) {
-    addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
+    await addComment('The definition file passed validation without any errors, a maintainer will merge this PR shortly.');
     clog.log('Commenting that we passed.', LOGLEVEL.DEBUG);
     return;
   }
@@ -55,7 +55,7 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
   }
 
   comment += 'Please address these issues by updating the definition and amending this PR with your updates.';
-  addComment(comment);
+  await addComment(comment);
   clog.log('Commenting fixlist.', LOGLEVEL.DEBUG);
   return;
 };

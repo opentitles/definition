@@ -2,7 +2,12 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
+import { Clog, LOGLEVEL } from '@fdebijl/clog';
+
 import { Pull } from '../../domain/Pull.js';
+import { formatError } from '../errors/index.js';
+
+const clog = new Clog();
 
 const previewHeader = 'application/vnd.github.groot-preview+json';
 
@@ -87,7 +92,11 @@ export async function addComment(message: string): Promise<void> {
     core.setOutput('comment-created', 'true');
     return;
   } catch (error) {
-    core.setFailed((error as Error).message);
+    // core.setFailed only surfaces the message, so log the full error as well - a swallowed stack
+    // here means nobody can tell why the PR never got its fixlist.
+    const formatted = formatError(error);
+    clog.log(`Could not add a comment to the PR: ${formatted}`, LOGLEVEL.ERROR);
+    core.setFailed(`Could not add a comment to the PR: ${formatted}`);
     return;
   }
 }
