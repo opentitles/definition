@@ -15,12 +15,13 @@ const clog = new Clog();
  */
 export const cookieClicker = async (page: Page, medium: MediumDefinition): Promise<void> => {
   switch (medium.name) {
+    case 'RTL':
     case 'NUnl':
     case 'Volkskrant':
     case 'AD': {
       // DPG
       return clickButtonAndRetryOnFail({
-        selector: 'button.pg-accept-btn',
+        selector: 'button#pg-accept-btn',
         expectsNavigation: true,
         page,
         medium
