@@ -1,5 +1,5 @@
 
-import { getInput, debug, warning, setOutput, setFailed } from '@actions/core';
+import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
 import { Pull } from '../../domain/Pull';
@@ -25,10 +25,10 @@ const getPulls = async (repoToken: string, repo: string, commitSha: string): Pro
 export async function addComment(message: string): Promise<void> {
   try {
     const repoToken = process.env.GITHUB_TOKEN as string;
-    const allowRepeats = Boolean(getInput('allow-repeats') === 'true');
+    const allowRepeats = Boolean(core.getInput('allow-repeats') === 'true');
 
-    debug(`input message: ${message}`);
-    debug(`input allow-repeats: ${allowRepeats}`);
+    core.debug(`input message: ${message}`);
+    core.debug(`input allow-repeats: ${allowRepeats}`);
 
     const {
       payload: { pull_request: pullRequest, repository },
@@ -48,10 +48,8 @@ export async function addComment(message: string): Promise<void> {
     }
 
     if (!issueNumber) {
-      warning(
-        'this action only works on pull_request events or other commits associated with a pull'
-      );
-      setOutput('comment-created', 'false');
+      core.warning('this action only works on pull_request events or other commits associated with a pull');
+      core.setOutput('comment-created', 'false');
       return;
     }
 
@@ -60,7 +58,7 @@ export async function addComment(message: string): Promise<void> {
     const octokit = github.getOctokit(repoToken);
 
     if (allowRepeats === false) {
-      debug('repeat comments are disallowed, checking for existing');
+      core.debug('repeat comments are disallowed, checking for existing');
 
       const { data: comments } = await octokit.rest.issues.listComments({
         owner,
@@ -73,8 +71,8 @@ export async function addComment(message: string): Promise<void> {
       );
 
       if (filteredComments.length) {
-        warning('the issue already contains this message');
-        setOutput('comment-created', 'false');
+        core.warning('the issue already contains this message');
+        core.setOutput('comment-created', 'false');
         return;
       }
     }
@@ -86,10 +84,10 @@ export async function addComment(message: string): Promise<void> {
       body: message,
     });
 
-    setOutput('comment-created', 'true');
+    core.setOutput('comment-created', 'true');
     return;
   } catch (error) {
-    setFailed((error as Error).message);
+    core.setFailed((error as Error).message);
     return;
   }
 }

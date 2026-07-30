@@ -5,7 +5,7 @@ on:
     types: [assigned, opened, synchronize, reopened]
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 24
 
 jobs:
   validate:
@@ -20,10 +20,10 @@ jobs:
       uses: actions/setup-node@v7
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: Install and build
-      run: |
-        npm ci
-        npm run compile
+    - name: Install deps
+      run: npm ci
+    - name: Build project
+      run: npm run build
     - name: Run status checks
       run: node dist/validator.js
       env:
