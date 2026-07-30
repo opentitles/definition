@@ -1,1 +1,1 @@
-export * from './validateArticle';
+export * from './validateArticle.js';

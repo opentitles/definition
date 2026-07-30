@@ -1,7 +1,7 @@
 import { Clog, LOGLEVEL } from '@fdebijl/clog';
 
-import { HostError, TitleError, IdError } from '../../domain';
-import { addComment } from './addComment';
+import { HostError, TitleError, IdError } from '../../domain/index.js';
+import { addComment } from './addComment.js';
 
 const clog = new Clog()
 

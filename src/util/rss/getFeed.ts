@@ -1,7 +1,7 @@
 import Parser, { Item } from 'rss-parser';
-import { HostError } from '../../domain';
-import { ParserFeedType } from '../../domain/ParserFeedType';
-import { ParserItemType } from '../../domain/ParserItemType';
+import { HostError } from '../../domain/index.js';
+import { ParserFeedType } from '../../domain/ParserFeedType.js';
+import { ParserItemType } from '../../domain/ParserItemType.js';
 
 const parser = new Parser<ParserFeedType, ParserItemType>({
   headers: {'User-Agent': 'OpenTitles Scraper by floris@debijl.xyz'},

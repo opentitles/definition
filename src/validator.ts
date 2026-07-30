@@ -1,13 +1,13 @@
 import moment from 'moment';
 import { Clog, LOGLEVEL } from '@fdebijl/clog';
 
-import { HostError, TitleError, IdError } from './domain';
-import { validateArticle } from './util/validation';
-import { getFlatMediaDefinition } from './util/media';
-import { getFeedItems, getRandomArticle } from './util/rss';
-import { initStatuses, closeStatuses, generateComment } from './util/github';
+import { HostError, TitleError, IdError } from './domain/index.js';
+import { validateArticle } from './util/validation/index.js';
+import { getFlatMediaDefinition } from './util/media/index.js';
+import { getFeedItems, getRandomArticle } from './util/rss/index.js';
+import { initStatuses, closeStatuses, generateComment } from './util/github/index.js';
 import { Item } from 'rss-parser';
-import { CONFIG } from './config';
+import { CONFIG } from './config.js';
 
 const clog = new Clog(CONFIG.MIN_LOGLEVEL);
 

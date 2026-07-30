@@ -2,7 +2,7 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { HttpClient, Headers as GithubHeaders } from '@actions/http-client';
-import { Pull } from '../../domain/Pull';
+import { Pull } from '../../domain/Pull.js';
 
 const previewHeader = 'application/vnd.github.groot-preview+json';
 

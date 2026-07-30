@@ -1,7 +1,7 @@
 import { Page, Frame, ElementHandle } from 'puppeteer';
 import { milliseconds } from '@fdebijl/pog';
 
-import { CONFIG } from '../../config';
+import { CONFIG } from '../../config.js';
 
 /**
  * Accept the cookies for any sites that use a cookiewall

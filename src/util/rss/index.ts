@@ -1,2 +1,2 @@
-export * from './getFeed';
-export * from './getRandomArticle';
+export * from './getFeed.js';
+export * from './getRandomArticle.js';

@@ -1,6 +1,6 @@
-import { HostError, TitleError, IdError } from '../../domain';
-import { setStatus } from './setStatus';
-import { CONFIG } from '../../config';
+import { HostError, TitleError, IdError } from '../../domain/index.js';
+import { setStatus } from './setStatus.js';
+import { CONFIG } from '../../config.js';
 
 export const closeStatuses = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[]): Promise<void> => {
   if (!process.env.GITHUB_REPOSITORY) {

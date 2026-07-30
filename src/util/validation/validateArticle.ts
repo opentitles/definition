@@ -1,11 +1,13 @@
 import { Item } from 'rss-parser';
-import pextra from 'puppeteer-extra';
+// puppeteer-extra is CJS: importing it from ESM yields the module.exports object,
+// so the PuppeteerExtra instance has to be taken off its `default` key.
+import puppeteerExtra from 'puppeteer-extra';
 import { milliseconds } from '@fdebijl/pog';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
-import { TitleError, IdError, HostError } from '../../domain';
-import { cookieClicker } from '../web/cookieClicker';
-import { findTitleElement } from './findTitleElement';
+import { TitleError, IdError, HostError } from '../../domain/index.js';
+import { cookieClicker } from '../web/cookieClicker.js';
+import { findTitleElement } from './findTitleElement.js';
 
 export const validateArticle = async (article: Item, medium: MediumDefinition, feedname: string): Promise<{hostError?: HostError, titleError?: TitleError, idError?: IdError}> => {
   if (!article) {
@@ -13,10 +15,11 @@ export const validateArticle = async (article: Item, medium: MediumDefinition, f
   }
 
   // TODO: Add catch for problems with launching puppeteer
+  const pextra = puppeteerExtra.default;
   pextra.use(StealthPlugin());
   const browser = await pextra.launch({
     headless: true,
-    ignoreHTTPSErrors: true
+    acceptInsecureCerts: true
   });
   const page = await browser.newPage();
   const link: string | undefined = article.link || article.guid || undefined;

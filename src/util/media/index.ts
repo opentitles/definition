@@ -1,2 +1,2 @@
-export * from './flattenMediaList';
-export * from './getFlatMediaDefinitions';
+export * from './flattenMediaList.js';
+export * from './getFlatMediaDefinitions.js';
