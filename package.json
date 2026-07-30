@@ -29,7 +29,7 @@
   "devDependencies": {
     "@fdebijl/eslint-config": "2.1.0",
     "@types/async": "3.2.25",
-    "@types/node": "24.13.3",
+    "@types/node": "26.1.0",
     "@types/xml2js": "0.4.14",
     "@typescript-eslint/eslint-plugin": "8.65.0",
     "@typescript-eslint/parser": "8.65.0",
