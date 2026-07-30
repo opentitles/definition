@@ -1,7 +1,11 @@
 import { Page, Frame, ElementHandle } from 'puppeteer';
 import { milliseconds } from '@fdebijl/pog';
+import { Clog, LOGLEVEL } from '@fdebijl/clog';
 
-import { CONFIG } from '../../config';
+import { CONFIG } from '../../config.js';
+import { formatError } from '../errors/index.js';
+
+const clog = new Clog();
 
 /**
  * Accept the cookies for any sites that use a cookiewall
@@ -9,18 +13,15 @@ import { CONFIG } from '../../config';
  * @param page Current page in puppeteer
  * @param medium Current medium being processed
  */
-export const cookieClicker = async (page: Page, medium: MediumDefinition, retryCount = 0): Promise<void> => {
-  if (retryCount > 2) {
-    throw new Error('Unacceptable cookie wall');
-  }
-
+export const cookieClicker = async (page: Page, medium: MediumDefinition): Promise<void> => {
   switch (medium.name) {
+    case 'RTL':
     case 'NUnl':
     case 'Volkskrant':
     case 'AD': {
       // DPG
       return clickButtonAndRetryOnFail({
-        selector: 'button.pg-accept-button',
+        selector: 'button#pg-accept-btn',
         expectsNavigation: true,
         page,
         medium
@@ -83,6 +84,10 @@ const clickButtonAndRetryOnFail = async (
         retryCount
       });
     }
+
+    // Getting past a cookie wall is best-effort, so this isn't fatal - but it does have to show up
+    // in the log, because being stuck on a consent page is a common cause of title and ID errors.
+    clog.log(`Could not dismiss the cookie wall for ${medium.name} using selector [${selector}] after ${retryCount} retries: ${formatError(error)}`, LOGLEVEL.WARN);
   }
 }
 
@@ -93,8 +98,9 @@ async function recursiveFindInFrames(inputFrame: Frame, selector: string): Promi
       try {
         const el = await frame.$(selector)
         if (el) return el as ElementHandle<Element>
-      } catch (e) {
-        // console.error(e);
+      } catch (error) {
+        // Detached or cross-origin frames are expected here, so this only matters when debugging.
+        clog.log(`Could not query [${selector}] in frame <${frame.url()}>: ${formatError(error)}`, LOGLEVEL.DEBUG);
       }
 
       if (frame.childFrames().length > 0) {

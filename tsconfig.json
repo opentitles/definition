@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "declaration": false,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -10,6 +11,7 @@
     "alwaysStrict": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   }
 }

@@ -1,4 +1,4 @@
-import { ConfirmedItem } from './ConfirmedItem';
+import { ConfirmedItem } from './ConfirmedItem.js';
 
 export interface ExtendedItem extends ConfirmedItem {
   artid: string;

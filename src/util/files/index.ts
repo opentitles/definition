@@ -1,1 +1,1 @@
-export * from './readJSON';
+export * from './readJSON.js';

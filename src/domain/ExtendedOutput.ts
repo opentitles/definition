@@ -1,6 +1,6 @@
 import { Output } from 'rss-parser';
-import { ExtendedItem } from './ExtendedItem';
-import { ParserItemType } from './ParserItemType';
+import { ExtendedItem } from './ExtendedItem.js';
+import { ParserItemType } from './ParserItemType.js';
 
 export interface ExtendedOutput extends Output<ParserItemType> {
   [key: string]: any;
