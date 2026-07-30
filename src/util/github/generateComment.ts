@@ -5,6 +5,22 @@ import { addComment } from './addComment.js';
 
 const clog = new Clog()
 
+type FeedError = HostError | TitleError | IdError;
+
+// A full fixlist runs to hundreds of lines, which buries the rest of the PR, so each category folds
+// away behind a summary. The blank lines around the list are load-bearing: without them GitHub
+// renders the markdown inside <details> as literal text.
+const collapsibleSection = (summary: string, errors: FeedError[]): string => {
+  let section = `<details>\n<summary><strong>${summary}</strong></summary>\n\n`;
+
+  errors.forEach(error => {
+    section += `- [ ] ${error.medium.name}:${error.feedname} - ${error.message}\n`
+  });
+
+  section += '\n</details>\n\n';
+  return section;
+};
+
 export const generateComment = async (hostErrors: HostError[], titleErrors: TitleError[], idErrors: IdError[], minutes: number, seconds: number): Promise<void> => {
   if (!process.env.GITHUB_REPOSITORY) {
     clog.log('Not commenting since we\'re not running as an action', LOGLEVEL.INFO);
@@ -31,27 +47,15 @@ export const generateComment = async (hostErrors: HostError[], titleErrors: Titl
   let comment = `The definition validator finished its run in ${minutes}m ${seconds}s and encountered ${errors} ${errors > 1 ? 'errors' : 'error'}:\n\n`;
 
   if (hostErrors && hostErrors.length > 0) {
-    comment += `**[${hostErrors.length}] Network or host ${hostErrors.length > 1 ? 'errors' : 'error'}:**\n`
-    hostErrors.forEach(hostError => {
-      comment += `- [ ] ${hostError.medium.name}:${hostError.feedname} - ${hostError.message}\n`
-    });
-    comment += '\n';
+    comment += collapsibleSection(`[${hostErrors.length}] Network or host ${hostErrors.length > 1 ? 'errors' : 'error'}`, hostErrors);
   }
 
   if (titleErrors && titleErrors.length > 0) {
-    comment += `**[${titleErrors.length}] Title detection or parsing ${titleErrors.length > 1 ? 'errors' : 'error'}:**\n`
-    titleErrors.forEach(titleError => {
-      comment += `- [ ] ${titleError.medium.name}:${titleError.feedname} - ${titleError.message}\n`
-    });
-    comment += '\n';
+    comment += collapsibleSection(`[${titleErrors.length}] Title detection or parsing ${titleErrors.length > 1 ? 'errors' : 'error'}`, titleErrors);
   }
 
   if (idErrors && idErrors.length > 0) {
-    comment += `**[${idErrors.length}] ID detection or parsing ${idErrors.length > 1 ? 'errors' : 'error'}:**\n`
-    idErrors.forEach(idError => {
-      comment += `- [ ] ${idError.medium.name}:${idError.feedname} - ${idError.message}\n`
-    });
-    comment += '\n';
+    comment += collapsibleSection(`[${idErrors.length}] ID detection or parsing ${idErrors.length > 1 ? 'errors' : 'error'}`, idErrors);
   }
 
   comment += 'Please address these issues by updating the definition and amending this PR with your updates.';
