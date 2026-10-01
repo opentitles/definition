@@ -20,7 +20,7 @@
     "@fdebijl/pog": "1.55.0",
     "@octokit/rest": "22.0.1",
     "async": "3.2.6",
-    "moment": "2.30.1",
+    "moment": "2.31.0",
     "puppeteer": "25.4.0",
     "puppeteer-extra": "3.3.6",
     "puppeteer-extra-plugin-stealth": "2.11.2",
